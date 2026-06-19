@@ -112,7 +112,7 @@ export default async function DashboardPage() {
       <PageHeader
         title="Dashboard"
         description={`Your sick leave overview at ${membership.organization.name}.`}
-        action={<NewRequestDialog orgId={membership.org_id} userId={user.id} />}
+        action={<NewRequestDialog />}
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -1,8 +1,8 @@
 # GDPR documentation — Leavicy
 
-Leavicy is a multi-tenant sick-leave platform for companies in **Cyprus (EU)**.
-It processes **special-category (health) data** (sick-leave reasons, doctor's
-notes), so GDPR compliance is a first-class requirement.
+Leavicy is a multi-tenant leave-management platform for companies in **Cyprus
+(EU)**. It processes employees' personal data (account details, organization
+membership, and leave records), so GDPR compliance is a first-class requirement.
 
 > ⚠️ These documents are an engineering starting point, **not legal advice**.
 > Have them reviewed by a qualified DPO / lawyer before relying on them.
@@ -20,8 +20,8 @@ notes), so GDPR compliance is a first-class requirement.
 ## Key principles applied in the product
 
 - **Data minimization** — only what's needed; free-text reasons are optional.
-- **Security** — Postgres Row Level Security per tenant; private Storage with
-  short-lived signed URLs; TLS in transit; encryption at rest (Supabase).
+- **Security** — Postgres Row Level Security per tenant; TLS in transit;
+  encryption at rest (Supabase).
 - **EU data residency** — hosting, database and sub-processors in the EU.
 - **Retention & erasure** — automated purge (see retention policy) + self-service
   data export and account deletion.

@@ -3,8 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Plus, Loader2, Upload } from "lucide-react";
-import { createClient } from "@repo/database/client";
+import { Plus, Loader2 } from "lucide-react";
 import { createLeaveRequest } from "@repo/database/actions/leave";
 import { workingDaysBetween, todayISO } from "@repo/database/format";
 import { LEAVE_TYPES, LEAVE_TYPE_LABELS, type LeaveType } from "@repo/database/types";
@@ -29,13 +28,7 @@ import {
   DialogTrigger,
 } from "./dialog";
 
-export function NewRequestDialog({
-  orgId,
-  userId,
-}: {
-  orgId: string;
-  userId: string;
-}) {
+export function NewRequestDialog() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -44,7 +37,6 @@ export function NewRequestDialog({
   const [startDate, setStartDate] = useState(todayISO());
   const [endDate, setEndDate] = useState(todayISO());
   const [reason, setReason] = useState("");
-  const [file, setFile] = useState<File | null>(null);
 
   const days =
     startDate && endDate ? workingDaysBetween(startDate, endDate) : 0;
@@ -54,34 +46,16 @@ export function NewRequestDialog({
     setStartDate(todayISO());
     setEndDate(todayISO());
     setReason("");
-    setFile(null);
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     startTransition(async () => {
-      let doctorNotePath = "";
-
-      if (file) {
-        const supabase = createClient();
-        const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-        const path = `${orgId}/${userId}/${Date.now()}-${safeName}`;
-        const { error: uploadError } = await supabase.storage
-          .from("doctor-notes")
-          .upload(path, file);
-        if (uploadError) {
-          toast.error(`Upload failed: ${uploadError.message}`);
-          return;
-        }
-        doctorNotePath = path;
-      }
-
       const fd = new FormData();
       fd.set("leave_type", leaveType);
       fd.set("start_date", startDate);
       fd.set("end_date", endDate);
       fd.set("reason", reason);
-      fd.set("doctor_note_path", doctorNotePath);
 
       const res = await createLeaveRequest(undefined, fd);
       if (res?.error) {
@@ -180,19 +154,6 @@ export function NewRequestDialog({
                 placeholder="Add a short note for your manager"
                 rows={3}
               />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="note">Doctor&apos;s note (optional)</Label>
-              <div className="flex items-center gap-2">
-                <Upload className="size-4 text-muted-foreground" />
-                <Input
-                  id="note"
-                  type="file"
-                  accept="application/pdf,image/png,image/jpeg,image/webp"
-                  onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                />
-              </div>
             </div>
           </div>
 

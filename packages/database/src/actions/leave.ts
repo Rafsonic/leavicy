@@ -20,8 +20,6 @@ export async function createLeaveRequest(
   const startDate = String(formData.get("start_date") ?? "");
   const endDate = String(formData.get("end_date") ?? "");
   const reason = String(formData.get("reason") ?? "").trim();
-  const doctorNotePath =
-    String(formData.get("doctor_note_path") ?? "").trim() || null;
 
   if (!LEAVE_TYPES.includes(leaveType)) return { error: "Invalid leave type." };
   if (!startDate || !endDate) return { error: "Start and end dates are required." };
@@ -46,7 +44,6 @@ export async function createLeaveRequest(
     end_date: endDate,
     working_days: workingDays,
     reason: reason || null,
-    doctor_note_path: doctorNotePath,
     status: "pending",
   });
 

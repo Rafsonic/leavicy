@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HeartPulse } from "lucide-react";
+import { CalendarCheck } from "lucide-react";
 
 export const metadata = { title: "Cookie Policy · Leavicy" };
 
@@ -9,7 +9,7 @@ export default function CookiesPage() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-12">
       <Link href="/" className="mb-8 flex items-center gap-2 font-semibold">
-        <HeartPulse className="size-5 text-primary" />
+        <CalendarCheck className="size-5 text-primary" />
         {APP}
       </Link>
 

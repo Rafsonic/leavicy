@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { HeartPulse } from "lucide-react";
+import { CalendarCheck } from "lucide-react";
 import { requireUser, getMemberships } from "@repo/database/dal";
 import { OnboardingTabs } from "@repo/ui";
 
@@ -14,7 +14,7 @@ export default async function OnboardingPage() {
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted/40 p-6">
       <div className="w-full max-w-md">
         <div className="mb-6 flex items-center justify-center gap-2 text-lg font-semibold">
-          <HeartPulse className="size-6 text-primary" />
+          <CalendarCheck className="size-6 text-primary" />
           Leavicy
         </div>
         <OnboardingTabs />

@@ -103,13 +103,13 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on push to `main` and on PRs:
 
 ## GDPR
 
-The product targets Cyprus (EU) and handles health data, so GDPR is built in:
+The product targets Cyprus (EU) and processes employees' personal data, so GDPR
+is built in:
 
 - **Docs** in [`docs/gdpr/`](./docs/gdpr/) — ROPA, retention policy, sub-processors,
   breach register, data-subject-request register.
 - **Retention/auto-delete** — `purge_expired_data()` (migration) + `pnpm gdpr:purge`
-  (schedulable): expires doctor's notes, deletes old cancelled/rejected requests,
-  scrubs old reasons.
+  (schedulable): deletes old cancelled/rejected requests and scrubs old reasons.
 - **Data-subject rights** — self-service **export** (`export_my_data` RPC) and
   **account deletion** on the `/account` (Privacy & data) page.
 - **Transparency & consent** — public `/privacy` and `/cookies` pages and a
@@ -121,4 +121,3 @@ The product targets Cyprus (EU) and handles health data, so GDPR is built in:
 - Middleware is `src/proxy.ts` (re-exports `updateSession` from `@repo/database/middleware`).
 - `params`/`searchParams`/`cookies()` are async.
 - shadcn primitives use Base UI: use the `render` prop, not `asChild`.
-- Doctor's notes live in a **private** `doctor-notes` Storage bucket (signed URLs).

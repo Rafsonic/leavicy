@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HeartPulse } from "lucide-react";
+import { CalendarCheck } from "lucide-react";
 
 export const metadata = { title: "Privacy Policy · Leavicy" };
 
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-12">
       <Link href="/" className="mb-8 flex items-center gap-2 font-semibold">
-        <HeartPulse className="size-5 text-primary" />
+        <CalendarCheck className="size-5 text-primary" />
         {APP}
       </Link>
 
@@ -47,9 +47,7 @@ export default function PrivacyPage() {
         <Section title="Data we process">
           <p>
             Account data (name, email), your organization membership and role,
-            and sick-leave records (dates, type, optional reason, and any
-            doctor&apos;s note you upload). Reasons and doctor&apos;s notes are{" "}
-            <strong>health data</strong> (special category under Art. 9 GDPR).
+            and leave records (dates, type, optional reason, status).
           </p>
         </Section>
 
@@ -57,15 +55,14 @@ export default function PrivacyPage() {
           <p>
             To provide the service (contract), to meet employment and
             social-security obligations, and — for account creation — your
-            consent. Health data is processed under Art. 9(2)(b) GDPR.
+            consent.
           </p>
         </Section>
 
         <Section title="Storage, security & location">
           <p>
             Data is stored in the <strong>EU</strong>. We apply row-level
-            security (tenant isolation), encryption in transit and at rest, and
-            serve doctor&apos;s notes only via short-lived signed links.
+            security (tenant isolation) and encryption in transit and at rest.
           </p>
         </Section>
 
@@ -79,9 +76,9 @@ export default function PrivacyPage() {
 
         <Section title="Retention">
           <p>
-            We keep data only as long as necessary. Doctor&apos;s notes are
-            deleted 12 months after the leave ends; cancelled/rejected requests
-            after 6 months; free-text reasons are scrubbed after 24 months.
+            We keep data only as long as necessary. Cancelled/rejected requests
+            are deleted 6 months after creation; free-text reasons are scrubbed
+            after 24 months.
           </p>
         </Section>
 

@@ -25,16 +25,16 @@ async function seed(row: Record<string, unknown>): Promise<string> {
 }
 
 describe("purge_expired_data (GDPR retention)", () => {
-  const ids: { a?: string; b?: string; c?: string } = {};
+  const ids: { a?: string; b?: string } = {};
 
   afterAll(async () => {
-    const toDelete = [ids.a, ids.b, ids.c].filter(Boolean) as string[];
+    const toDelete = [ids.a, ids.b].filter(Boolean) as string[];
     if (toDelete.length) {
       await admin.from("leave_requests").delete().in("id", toDelete);
     }
   });
 
-  it("deletes old cancelled, scrubs old reasons, clears expired notes", async () => {
+  it("deletes old cancelled requests and scrubs old reasons", async () => {
     // A — cancelled ~7 months ago → hard deleted
     ids.a = await seed({
       start_date: dateDaysAgo(220),
@@ -49,14 +49,6 @@ describe("purge_expired_data (GDPR retention)", () => {
       status: "approved",
       reason: "old reason",
       created_at: tsDaysAgo(760),
-    });
-    // C — approved, end_date ~13 months ago, with a note → note path cleared
-    ids.c = await seed({
-      start_date: dateDaysAgo(400),
-      end_date: dateDaysAgo(400),
-      status: "approved",
-      doctor_note_path: `${ACME_ORG}/${USERS.acmeNurse}/old.pdf`,
-      created_at: tsDaysAgo(400),
     });
 
     const { data: result, error } = await admin.rpc("purge_expired_data");
@@ -76,12 +68,5 @@ describe("purge_expired_data (GDPR retention)", () => {
       .eq("id", ids.b)
       .single();
     expect(b!.reason).toBeNull();
-
-    const { data: c } = await admin
-      .from("leave_requests")
-      .select("doctor_note_path")
-      .eq("id", ids.c)
-      .single();
-    expect(c!.doctor_note_path).toBeNull();
   });
 });

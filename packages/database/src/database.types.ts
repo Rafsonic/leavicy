@@ -78,7 +78,6 @@ export type Database = {
       leave_requests: {
         Row: {
           created_at: string
-          doctor_note_path: string | null
           end_date: string
           id: string
           leave_type: Database["public"]["Enums"]["leave_type"]
@@ -95,7 +94,6 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          doctor_note_path?: string | null
           end_date: string
           id?: string
           leave_type?: Database["public"]["Enums"]["leave_type"]
@@ -112,7 +110,6 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          doctor_note_path?: string | null
           end_date?: string
           id?: string
           leave_type?: Database["public"]["Enums"]["leave_type"]

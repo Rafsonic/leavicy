@@ -3,13 +3,12 @@
 _Last updated: 2026-06-18. Implemented by `*_gdpr_retention.sql` +
 `scripts/purge-expired.mjs` (runnable on a schedule)._
 
-Principle: keep personal/health data only as long as necessary, then delete or
+Principle: keep personal data only as long as necessary, then delete or
 anonymize. Periods below are **defaults** — confirm against Cyprus employment /
 social-security law with your DPO.
 
 | Data | Retention | Action on expiry |
 | ---- | --------- | ---------------- |
-| **Doctor's notes** (Storage files, health) | 12 months after the leave `end_date` | Delete the Storage object **and** clear `doctor_note_path` |
 | **Cancelled / rejected** leave requests | 6 months after creation | Hard delete the row |
 | **Reason free-text** on older requests | 24 months after `end_date` | Scrub to `NULL` (keep dates/type/status as a minimal record) |
 | Approved leave records (dates/type/days) | Kept per employment-law needs | Reviewed manually; not auto-deleted |

@@ -1,4 +1,4 @@
-import { HeartPulse } from "lucide-react";
+import { CalendarCheck } from "lucide-react";
 import Link from "next/link";
 
 export default function AuthLayout({
@@ -13,7 +13,7 @@ export default function AuthLayout({
           href="/"
           className="mb-6 flex items-center justify-center gap-2 text-lg font-semibold"
         >
-          <HeartPulse className="size-6 text-primary" />
+          <CalendarCheck className="size-6 text-primary" />
           {process.env.NEXT_PUBLIC_APP_NAME ?? "Leavicy"}
         </Link>
         {children}

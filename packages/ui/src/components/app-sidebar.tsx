@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  HeartPulse,
+  CalendarCheck,
   LayoutDashboard,
   ClipboardList,
   CheckSquare,
@@ -169,7 +169,7 @@ export function AppSidebar(props: SidebarProps) {
           href="/dashboard"
           className="flex items-center gap-2 px-2 text-lg font-semibold"
         >
-          <HeartPulse className="size-6 text-primary" />
+          <CalendarCheck className="size-6 text-primary" />
           {BRAND}
         </Link>
         <OrgSwitcher
@@ -185,7 +185,7 @@ export function AppSidebar(props: SidebarProps) {
       {/* Mobile top bar */}
       <header className="flex items-center justify-between border-b bg-background p-3 md:hidden">
         <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
-          <HeartPulse className="size-5 text-primary" />
+          <CalendarCheck className="size-5 text-primary" />
           {BRAND}
         </Link>
         <div className="flex items-center gap-2">

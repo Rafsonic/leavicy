@@ -174,9 +174,10 @@ The product targets **Cyprus (EU)**. Default country **Cyprus** (ISO `CY`, dial 
   database in an **EU region** (data residency / GDPR). Use the EU region closest
   to Cyprus — e.g. Supabase **`eu-central-1` (Frankfurt)** — and keep all PII there.
   Never provision prod data stores in non-EU regions.
-- **GDPR**: sick-leave reasons and doctor's notes are **special-category (health)
-  data** — minimize collection, restrict access (RLS + signed URLs), store in the
-  EU only, and keep deletion/retention in mind. Study & follow:
+- **GDPR**: leave records (dates, type, optional reason, status) are personal
+  data — minimize collection, restrict access (RLS), store in the EU only, and
+  keep deletion/retention in mind. The app does **not** collect health data or
+  medical documents (no doctor's notes). Study & follow:
   - https://europa.eu/youreurope/business/dealing-with-customers/data-protection/data-protection-gdpr/index_en.htm
   - https://www.mydpopartner-en.fr/my-services/mandatory-gdpr-documents
   - https://gdpr.eu/checklist/ — compliance checklist (lawful basis & transparency,

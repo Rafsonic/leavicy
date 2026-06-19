@@ -11,12 +11,12 @@ For each incident, add a row and keep supporting notes in an internal ticket.
 
 | ID | Detected (UTC) | Description | Data categories | Subjects affected (approx) | Risk level | DPA notified? (date / within 72h) | Individuals notified? | Remedial actions | Status |
 | -- | -------------- | ----------- | --------------- | -------------------------- | ---------- | --------------------------------- | --------------------- | ---------------- | ------ |
-| _example_ | 2026-01-01T10:00Z | _what happened_ | e.g. email, health | ~N | low/med/high | yes — 2026-01-02 (✓) | yes/no | _patched X, rotated keys_ | open/closed |
+| _example_ | 2026-01-01T10:00Z | _what happened_ | e.g. email, name | ~N | low/med/high | yes — 2026-01-02 (✓) | yes/no | _patched X, rotated keys_ | open/closed |
 
 ## Quick checklist when a breach is suspected
 
 1. Contain (revoke keys/sessions, disable affected paths).
-2. Assess scope & risk (which data, how many subjects, special-category?).
+2. Assess scope & risk (which data, how many subjects).
 3. Record here immediately.
 4. If risk to individuals → notify the authority **within 72h**.
 5. If high risk → notify affected individuals without undue delay.

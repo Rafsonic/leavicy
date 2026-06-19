@@ -1,6 +1,4 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { FileText } from "lucide-react";
 import { requireActiveMembership } from "@repo/database/dal";
 import { createClient } from "@repo/database/server";
 import { formatDateRange, formatDateTime } from "@repo/database/format";
@@ -36,7 +34,6 @@ type Row = {
   status: "pending" | "approved" | "rejected" | "cancelled";
   reason: string | null;
   reviewed_at: string | null;
-  doctor_note_path: string | null;
   profiles: { full_name: string | null; email: string | null } | null;
 };
 
@@ -49,7 +46,7 @@ export default async function ApprovalsPage() {
   const { data } = await supabase
     .from("leave_requests")
     .select(
-      "id, user_id, leave_type, start_date, end_date, working_days, status, reason, reviewed_at, doctor_note_path, profiles(full_name, email)",
+      "id, user_id, leave_type, start_date, end_date, working_days, status, reason, reviewed_at, profiles(full_name, email)",
     )
     .eq("org_id", membership.org_id)
     .order("created_at", { ascending: false });
@@ -59,19 +56,6 @@ export default async function ApprovalsPage() {
   const reviewed = rows
     .filter((r) => r.status === "approved" || r.status === "rejected")
     .slice(0, 15);
-
-  // Signed URLs for attached notes
-  const noteUrls = new Map<string, string>();
-  await Promise.all(
-    pending
-      .filter((r) => r.doctor_note_path)
-      .map(async (r) => {
-        const { data } = await supabase.storage
-          .from("doctor-notes")
-          .createSignedUrl(r.doctor_note_path!, 60 * 10);
-        if (data?.signedUrl) noteUrls.set(r.id, data.signedUrl);
-      }),
-  );
 
   return (
     <>
@@ -123,16 +107,6 @@ export default async function ApprovalsPage() {
                       <span className="text-sm text-muted-foreground">
                         {r.reason || "—"}
                       </span>
-                      {noteUrls.has(r.id) && (
-                        <Link
-                          href={noteUrls.get(r.id)!}
-                          target="_blank"
-                          className="mt-1 flex items-center gap-1 text-xs underline"
-                        >
-                          <FileText className="size-3" />
-                          Doctor&apos;s note
-                        </Link>
-                      )}
                     </TableCell>
                     <TableCell>
                       <ReviewControls id={r.id} />

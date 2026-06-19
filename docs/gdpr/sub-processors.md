@@ -5,7 +5,7 @@ sub-processors start processing their data._
 
 | Sub-processor | Purpose | Data | Region | DPA |
 | ------------- | ------- | ---- | ------ | --- |
-| **Supabase** | Database, Auth, Storage, hosting | all app data incl. health data | **EU** (e.g. `eu-central-1` Frankfurt) | Sign Supabase DPA |
+| **Supabase** | Database, Auth, hosting | all app data (account, membership, leave records) | **EU** (e.g. `eu-central-1` Frankfurt) | Sign Supabase DPA |
 | **Resend** | Transactional email (invitations) | invitee email, org name | **EU region** | Sign Resend DPA |
 | **Vercel** (if used) | App hosting / CDN | request metadata, cookies | **EU region** | Sign Vercel DPA |
 
