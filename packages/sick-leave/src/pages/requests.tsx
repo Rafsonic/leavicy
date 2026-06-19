@@ -1,0 +1,125 @@
+import Link from "next/link";
+import { FileText } from "lucide-react";
+import { requireActiveMembership } from "@repo/database/dal";
+import { createClient } from "@repo/database/server";
+import { formatDateRange, formatDate } from "@repo/database/format";
+import { PageHeader } from "@repo/ui";
+import { NewRequestDialog } from "@repo/ui";
+import { CancelRequestButton } from "@repo/ui";
+import { StatusBadge, TypeBadge } from "@repo/ui";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@repo/ui";
+import { Card, CardContent } from "@repo/ui";
+
+export const metadata = { title: "My requests · SickDesk" };
+
+export default async function RequestsPage() {
+  const { user, membership } = await requireActiveMembership();
+  const supabase = await createClient();
+
+  const { data: requests } = await supabase
+    .from("leave_requests")
+    .select(
+      "id, leave_type, start_date, end_date, working_days, status, reason, review_note, doctor_note_path, created_at",
+    )
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
+
+  // Signed URLs for any attached doctor's notes
+  const noteUrls = new Map<string, string>();
+  await Promise.all(
+    (requests ?? [])
+      .filter((r) => r.doctor_note_path)
+      .map(async (r) => {
+        const { data } = await supabase.storage
+          .from("doctor-notes")
+          .createSignedUrl(r.doctor_note_path!, 60 * 10);
+        if (data?.signedUrl) noteUrls.set(r.id, data.signedUrl);
+      }),
+  );
+
+  return (
+    <>
+      <PageHeader
+        title="My requests"
+        description="Track and manage your sick leave requests."
+        action={<NewRequestDialog orgId={membership.org_id} userId={user.id} />}
+      />
+
+      <Card>
+        <CardContent className="p-0">
+          {!requests || requests.length === 0 ? (
+            <div className="p-10 text-center text-sm text-muted-foreground">
+              You haven&apos;t submitted any requests yet.
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Dates</TableHead>
+                  <TableHead className="text-right">Days</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Note</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {requests.map((r) => (
+                  <TableRow key={r.id}>
+                    <TableCell>
+                      <TypeBadge type={r.leave_type} />
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {formatDateRange(r.start_date, r.end_date)}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {r.working_days}
+                    </TableCell>
+                    <TableCell>
+                      <StatusBadge status={r.status} />
+                      {r.status === "rejected" && r.review_note && (
+                        <p className="mt-1 max-w-[16rem] text-xs text-muted-foreground">
+                          {r.review_note}
+                        </p>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {noteUrls.has(r.id) ? (
+                        <Link
+                          href={noteUrls.get(r.id)!}
+                          target="_blank"
+                          className="inline-flex items-center gap-1 text-sm underline"
+                        >
+                          <FileText className="size-3.5" />
+                          View
+                        </Link>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {r.status === "pending" ? (
+                        <CancelRequestButton id={r.id} />
+                      ) : (
+                        <span className="text-xs text-muted-foreground">
+                          {formatDate(r.created_at)}
+                        </span>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+    </>
+  );
+}

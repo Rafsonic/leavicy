@@ -1,0 +1,27 @@
+{
+  "name": "@repo/email",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./send-invitation": "./src/send-invitation.ts",
+    "./templates": "./src/templates.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(no lint)\"",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "resend": "^6.14.0",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@repo/vitest-config": "workspace:*",
+    "@types/node": "^20",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.9"
+  }
+}

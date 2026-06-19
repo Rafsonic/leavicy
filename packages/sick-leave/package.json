@@ -1,0 +1,43 @@
+{
+  "name": "@repo/sick-leave",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./pages/approvals": "./src/pages/approvals.tsx",
+    "./pages/calendar": "./src/pages/calendar.tsx",
+    "./pages/dashboard": "./src/pages/dashboard.tsx",
+    "./pages/home": "./src/pages/home.tsx",
+    "./pages/invite": "./src/pages/invite.tsx",
+    "./pages/login": "./src/pages/login.tsx",
+    "./pages/onboarding": "./src/pages/onboarding.tsx",
+    "./pages/requests": "./src/pages/requests.tsx",
+    "./pages/signup": "./src/pages/signup.tsx",
+    "./pages/team": "./src/pages/team.tsx",
+    "./pages/account": "./src/pages/account.tsx",
+    "./pages/privacy": "./src/pages/privacy.tsx",
+    "./pages/cookies": "./src/pages/cookies.tsx",
+    "./layouts/app-shell": "./src/layouts/app-shell.tsx",
+    "./layouts/auth-layout": "./src/layouts/auth-layout.tsx"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(no lint)\""
+  },
+  "dependencies": {
+    "@repo/database": "workspace:*",
+    "@repo/ui": "workspace:*",
+    "lucide-react": "^1.20.0"
+  },
+  "peerDependencies": {
+    "next": "^16.2.9",
+    "react": "^19.2.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19.2.0",
+    "next": "16.2.9",
+    "react": "^19.2.0",
+    "typescript": "^5.9.3"
+  }
+}
