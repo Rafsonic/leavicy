@@ -1,0 +1,44 @@
+diff --git a/lib/linter/file-context.js b/lib/linter/file-context.js
+index ff3ac9ee1ba1f8503bb9e61ddd0a9ca048ea55c2..6262b11576386a2a9c1e36629137c2da2502f50f 100644
+--- a/lib/linter/file-context.js
++++ b/lib/linter/file-context.js
+@@ -73,6 +73,39 @@ class FileContext {
+ 		Object.freeze(this);
+ 	}
+ 
++	/**
++	 * Compatibility shims for context methods removed in ESLint 10. These return
++	 * the modern properties verbatim, so they are behaviourally identical to the
++	 * properties and safe for plugins that guard on `typeof ctx.getX === "function"`.
++	 * Needed by legacy plugins still bundled by eslint-config-next (e.g.
++	 * eslint-plugin-react's version.js calls `context.getFilename()` unguarded).
++	 * @returns {string} The current working directory.
++	 */
++	getCwd() {
++		return this.cwd;
++	}
++
++	/**
++	 * @returns {string} The filename of the file being linted.
++	 */
++	getFilename() {
++		return this.filename;
++	}
++
++	/**
++	 * @returns {string} The physical filename of the file being linted.
++	 */
++	getPhysicalFilename() {
++		return this.physicalFilename;
++	}
++
++	/**
++	 * @returns {SourceCode} The source code of the file being linted.
++	 */
++	getSourceCode() {
++		return this.sourceCode;
++	}
++
+ 	/**
+ 	 * Creates a new object with the current object as the prototype and
+ 	 * the specified properties as its own properties.

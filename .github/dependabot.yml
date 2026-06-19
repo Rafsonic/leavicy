@@ -1,0 +1,37 @@
+version: 2
+updates:
+  # JS/TS dependencies across the pnpm workspace (root + apps + packages).
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Nicosia
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    labels:
+      - dependencies
+    groups:
+      # One PR for routine non-breaking bumps to cut PR noise.
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # ESLint must stay on 9.x (flat-config / plugin compatibility) — bump manually.
+      - dependency-name: eslint
+        update-types:
+          - version-update:semver-major
+
+  # The GitHub Actions used by our workflows.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Nicosia
+    labels:
+      - dependencies
+      - github-actions

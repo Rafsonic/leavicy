@@ -26,6 +26,22 @@
   - `data-component="<ComponentName>"` (PascalCase)
   - `data-cy={id}` (forwarded from the component's `id` prop)
 
+### Shared utilities / helpers
+
+- **Reuse rule (MUST):** the moment a helper/util is used **more than once** across
+  **different pages/modules**, it MUST be moved into the **`@repo/utils`** package
+  (`packages/utils`) and imported from there — never copy-pasted or duplicated.
+- `@repo/utils` is organized by domain — `date.utils.ts`, `string.utils.ts`,
+  `amount.utils.ts`, `number.utils.ts` — each with tests in `src/__tests__/`.
+  Add new helpers to the matching file (or a new `<domain>.utils.ts`); import via
+  the focused entrypoint (`@repo/utils/date`) or the barrel (`@repo/utils`).
+- **Component-local exception:** if helpers exist **only** for one specific
+  component/section and are not reused elsewhere, keep them beside that component as
+  `<component>.utils.ts` (e.g. `calendar-picker/calendar-picker.utils.ts`). Promote
+  them to `@repo/utils` the first time a second page/module needs them.
+- Helpers in `@repo/utils` must be **pure, typed, and tested** (every helper gets a
+  unit test). Consuming apps must list `@repo/utils` in `transpilePackages`.
+
 ### Buttons
 
 - Every `<Button>` / `<button>` MUST include both:

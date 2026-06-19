@@ -9,3 +9,11 @@ allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
   - '@types/node@26.0.0'
+patchedDependencies:
+  eslint@10.5.0: patches/eslint@10.5.0.patch
+# eslint-config-next still bundles plugins (eslint-plugin-react/import/jsx-a11y)
+# that peer-cap eslint at 9, but they work on eslint 10 — the unguarded
+# context.getFilename() call is restored by patches/eslint@10.5.0.patch.
+peerDependencyRules:
+  allowedVersions:
+    eslint: "10"
