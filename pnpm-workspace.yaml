@@ -2,3 +2,8 @@ packages:
   - "apps/*"
   - "packages/*"
   - "tests/*"
+allowBuilds:
+  "@tailwindcss/oxide": true
+  sharp: true
+  unrs-resolver: true
+  esbuild: true
