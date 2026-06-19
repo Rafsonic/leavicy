@@ -57,11 +57,9 @@ changed). If tests fail, fix them — do not commit red tests.
   the repo's git guidance (branch first if required by project workflow).
 - **Do not push** unless the user explicitly asks.
 
-End every commit message with this footer:
-
-```
-Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
-```
+Do **not** add any AI/assistant attribution to the commit message — no
+`Co-Authored-By` trailer, no "Generated with"/"Claude"/"Anthropic" lines, no
+emoji credit. The commit message is the change description only.
 
 ## Difference from `gcommit`
 
