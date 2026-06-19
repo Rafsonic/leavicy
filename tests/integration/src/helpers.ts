@@ -4,7 +4,7 @@ const URL = process.env.SUPABASE_URL ?? "http://127.0.0.1:55321";
 const ANON =
   process.env.SUPABASE_ANON_KEY ??
   "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH";
-const SERVICE = process.env.SUPABASE_SECRET_KEY;
+const SERVICE = process.env.SUPABASE_SECRET_KEY ?? "";
 if (!SERVICE) {
   throw new Error(
     "SUPABASE_SECRET_KEY is required for integration tests (get it from `supabase status`).",
