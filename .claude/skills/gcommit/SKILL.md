@@ -58,7 +58,11 @@ changed). If tests fail, fix them — do not commit red tests.
 - Write a clear, concise commit message describing the session's change.
 - If on the default branch (`main`) and the user has not said otherwise, follow
   the repo's git guidance (branch first if required by project workflow).
-- **Do not push** unless the user explicitly asks.
+- **NEVER push.** Stop after committing. The user pushes themselves ~99% of the
+  time and will explicitly tell you on the rare occasion they want you to push.
+  Do not run `git push`, do not infer permission from context (a failing CI, an
+  added remote, "publish", etc.), and do not offer to push as a default. Only
+  push if, in the current turn, the user explicitly tells you to.
 
 Do **not** add any AI/assistant attribution to the commit message — no
 `Co-Authored-By` trailer, no "Generated with"/"Claude"/"Anthropic" lines, no
@@ -69,4 +73,5 @@ emoji credit. The commit message is the change description only.
 - Never stage or commit changes you did not make this session.
 - Never use bulk staging flags (`.`, `-A`, `-u`, `-a`).
 - Never commit without the covering tests, and never commit failing tests.
+- **Never push** without an explicit instruction to push in the current turn.
 - When in doubt about ownership of a change, ask the user rather than guessing.
