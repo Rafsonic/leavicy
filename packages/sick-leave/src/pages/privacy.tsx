@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { HeartPulse } from "lucide-react";
 
-export const metadata = { title: "Privacy Policy · SickDesk" };
+export const metadata = { title: "Privacy Policy · Leavicy" };
 
-const APP = process.env.NEXT_PUBLIC_APP_NAME ?? "SickDesk";
+const APP = process.env.NEXT_PUBLIC_APP_NAME ?? "Leavicy";
 
 function Section({
   title,
@@ -38,8 +38,8 @@ export default function PrivacyPage() {
       <div className="mt-8 space-y-6">
         <Section title="Who we are">
           <p>
-            SickDesk provides sick-leave management for companies in Cyprus (EU).
-            Your employer is the data controller; SickDesk acts as processor on
+            Leavicy provides sick-leave management for companies in Cyprus (EU).
+            Your employer is the data controller; Leavicy acts as processor on
             their behalf.
           </p>
         </Section>

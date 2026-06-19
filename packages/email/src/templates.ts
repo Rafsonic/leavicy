@@ -27,7 +27,7 @@ function escapeHtml(value: string): string {
  * NOTE: email clients require inline styles — this is intentionally not Tailwind.
  */
 export function buildInvitationEmail(params: InvitationEmailParams): BuiltEmail {
-  const app = params.appName?.trim() || "SickDesk";
+  const app = params.appName?.trim() || "Leavicy";
   const inviter = params.inviterName?.trim();
   const org = params.orgName.trim();
 

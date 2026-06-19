@@ -1,4 +1,4 @@
-# SickDesk — Multi-tenant Sick Leave Platform (Turborepo)
+# Leavicy — Multi-tenant Sick Leave Platform (Turborepo)
 
 A pnpm + Turborepo monorepo. Three Next.js 16 apps share a single Supabase
 backend and a set of shared packages.
@@ -7,9 +7,9 @@ backend and a set of shared packages.
 
 | App           | Purpose                          | Port | `NEXT_PUBLIC_APP_NAME` |
 | ------------- | -------------------------------- | ---- | ---------------------- |
-| `apps/portal` | Employee / company self-service  | 3100 | SickDesk Portal        |
-| `apps/crm`    | HR / company management          | 3200 | SickDesk CRM           |
-| `apps/central`| Super-admin back-office          | 3300 | SickDesk Central       |
+| `apps/portal` | Employee / company self-service  | 3100 | Leavicy Portal        |
+| `apps/crm`    | HR / company management          | 3200 | Leavicy CRM           |
+| `apps/central`| Super-admin back-office          | 3300 | Leavicy Central       |
 
 All three consume the shared sick-leave feature; visibility is role-driven
 (employee / manager / admin) via Postgres RLS.

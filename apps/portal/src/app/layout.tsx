@@ -9,7 +9,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "SickDesk Portal";
+const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "Leavicy Portal";
 
 export const metadata: Metadata = {
   title: `${APP_NAME} — Sick Leave`,

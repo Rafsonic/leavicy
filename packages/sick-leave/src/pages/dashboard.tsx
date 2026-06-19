@@ -22,7 +22,7 @@ import {
 } from "@repo/ui";
 import { Button } from "@repo/ui";
 
-export const metadata = { title: "Dashboard · SickDesk" };
+export const metadata = { title: "Dashboard · Leavicy" };
 
 function Stat({
   label,

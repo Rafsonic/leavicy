@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@repo/ui";
 
-export const metadata = { title: "Privacy & data · SickDesk" };
+export const metadata = { title: "Privacy & data · Leavicy" };
 
 export default async function AccountPage() {
   const user = await requireUser();

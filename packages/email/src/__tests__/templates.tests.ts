@@ -11,7 +11,7 @@ describe("buildInvitationEmail", () => {
   it("puts the org name and app in the subject", () => {
     const { subject } = buildInvitationEmail(base);
     expect(subject).toContain("Acme Health");
-    expect(subject).toContain("SickDesk");
+    expect(subject).toContain("Leavicy");
   });
 
   it("includes the invite URL in both html and text", () => {
@@ -39,7 +39,7 @@ describe("buildInvitationEmail", () => {
   });
 
   it("honors a custom app name", () => {
-    const { subject } = buildInvitationEmail({ ...base, appName: "SickDesk CRM" });
-    expect(subject).toContain("SickDesk CRM");
+    const { subject } = buildInvitationEmail({ ...base, appName: "Leavicy CRM" });
+    expect(subject).toContain("Leavicy CRM");
   });
 });

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { HeartPulse } from "lucide-react";
 
-export const metadata = { title: "Cookie Policy · SickDesk" };
+export const metadata = { title: "Cookie Policy · Leavicy" };
 
-const APP = process.env.NEXT_PUBLIC_APP_NAME ?? "SickDesk";
+const APP = process.env.NEXT_PUBLIC_APP_NAME ?? "Leavicy";
 
 export default function CookiesPage() {
   return (

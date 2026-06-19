@@ -25,7 +25,7 @@ export function DataExportButton({
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "sickdesk-my-data.json";
+      link.download = "leavicy-my-data.json";
       link.click();
       URL.revokeObjectURL(url);
       toast.success("Your data has been downloaded.");

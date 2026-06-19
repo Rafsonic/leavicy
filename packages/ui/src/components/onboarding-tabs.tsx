@@ -33,7 +33,7 @@ export function OnboardingTabs() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Welcome to SickDesk</CardTitle>
+        <CardTitle>Welcome to Leavicy</CardTitle>
         <CardDescription>
           Create a company workspace, or join one you were invited to.
         </CardDescription>

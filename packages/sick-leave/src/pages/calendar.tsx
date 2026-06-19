@@ -21,7 +21,7 @@ import {
   CardTitle,
 } from "@repo/ui";
 
-export const metadata = { title: "Team calendar · SickDesk" };
+export const metadata = { title: "Team calendar · Leavicy" };
 
 type Entry = {
   id: string;

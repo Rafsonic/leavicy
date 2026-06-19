@@ -33,7 +33,7 @@ import { ROLE_LABELS, type AppRole, canReview } from "@repo/database/types";
 import type { NavItem, SidebarProps } from "./app-sidebar.types";
 import { initials } from "./app-sidebar.utils";
 
-const BRAND = process.env.NEXT_PUBLIC_APP_NAME ?? "SickDesk";
+const BRAND = process.env.NEXT_PUBLIC_APP_NAME ?? "Leavicy";
 
 const NAV: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, show: () => true },

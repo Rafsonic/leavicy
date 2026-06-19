@@ -24,7 +24,7 @@ import {
   CardTitle,
 } from "@repo/ui";
 
-export const metadata = { title: "Approvals · SickDesk" };
+export const metadata = { title: "Approvals · Leavicy" };
 
 type Row = {
   id: string;

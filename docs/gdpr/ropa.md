@@ -2,7 +2,7 @@
 
 _Art. 30 GDPR. Last updated: 2026-06-18. Review at least annually._
 
-**Controller:** customer company. **Processor:** SickDesk.
+**Controller:** customer company. **Processor:** Leavicy.
 **Data residency:** EU (see [sub-processors.md](./sub-processors.md)).
 
 | # | Activity | Personal data | Subjects | Lawful basis | Retention | Recipients |

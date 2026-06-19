@@ -9,7 +9,7 @@ import {
 import { AuthForm } from "@repo/ui";
 import { getCurrentUser } from "@repo/database/dal";
 
-export const metadata = { title: "Sign in · SickDesk" };
+export const metadata = { title: "Sign in · Leavicy" };
 
 export default async function LoginPage() {
   if (await getCurrentUser()) redirect("/");
@@ -18,7 +18,7 @@ export default async function LoginPage() {
     <Card>
       <CardHeader>
         <CardTitle>Welcome back</CardTitle>
-        <CardDescription>Sign in to your SickDesk account.</CardDescription>
+        <CardDescription>Sign in to your Leavicy account.</CardDescription>
       </CardHeader>
       <CardContent>
         <AuthForm mode="login" />

@@ -1,6 +1,6 @@
-# GDPR documentation — SickDesk
+# GDPR documentation — Leavicy
 
-SickDesk is a multi-tenant sick-leave platform for companies in **Cyprus (EU)**.
+Leavicy is a multi-tenant sick-leave platform for companies in **Cyprus (EU)**.
 It processes **special-category (health) data** (sick-leave reasons, doctor's
 notes), so GDPR compliance is a first-class requirement.
 
@@ -30,8 +30,8 @@ notes), so GDPR compliance is a first-class requirement.
 ## Roles
 
 - **Controller**: each customer company (decides why staff sick-leave is processed).
-- **Processor**: SickDesk (processes on the company's behalf) — a DPA should be in
-  place between SickDesk and each customer.
+- **Processor**: Leavicy (processes on the company's behalf) — a DPA should be in
+  place between Leavicy and each customer.
 - **Sub-processors**: see [sub-processors.md](./sub-processors.md).
 
 ## Where this is implemented

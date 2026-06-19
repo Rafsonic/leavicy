@@ -14,7 +14,7 @@ export default function AuthLayout({
           className="mb-6 flex items-center justify-center gap-2 text-lg font-semibold"
         >
           <HeartPulse className="size-6 text-primary" />
-          {process.env.NEXT_PUBLIC_APP_NAME ?? "SickDesk"}
+          {process.env.NEXT_PUBLIC_APP_NAME ?? "Leavicy"}
         </Link>
         {children}
         <p className="mt-6 text-center text-xs text-muted-foreground">

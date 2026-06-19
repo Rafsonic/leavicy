@@ -10,7 +10,7 @@ import {
 import { getCurrentUser } from "@repo/database/dal";
 import { InviteAcceptForm } from "@repo/ui";
 
-export const metadata = { title: "Accept invitation · SickDesk" };
+export const metadata = { title: "Accept invitation · Leavicy" };
 
 export default async function InvitePage({
   params,
@@ -30,7 +30,7 @@ export default async function InvitePage({
       <div className="w-full max-w-sm">
         <div className="mb-6 flex items-center justify-center gap-2 text-lg font-semibold">
           <HeartPulse className="size-6 text-primary" />
-          SickDesk
+          Leavicy
         </div>
         <Card>
           <CardHeader>

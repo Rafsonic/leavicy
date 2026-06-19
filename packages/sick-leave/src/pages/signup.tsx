@@ -9,7 +9,7 @@ import {
 import { AuthForm } from "@repo/ui";
 import { getCurrentUser } from "@repo/database/dal";
 
-export const metadata = { title: "Sign up · SickDesk" };
+export const metadata = { title: "Sign up · Leavicy" };
 
 export default async function SignupPage() {
   if (await getCurrentUser()) redirect("/");

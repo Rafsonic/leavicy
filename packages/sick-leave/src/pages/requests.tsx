@@ -17,7 +17,7 @@ import {
 } from "@repo/ui";
 import { Card, CardContent } from "@repo/ui";
 
-export const metadata = { title: "My requests · SickDesk" };
+export const metadata = { title: "My requests · Leavicy" };
 
 export default async function RequestsPage() {
   const { user, membership } = await requireActiveMembership();

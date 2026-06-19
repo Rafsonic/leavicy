@@ -21,7 +21,7 @@ export async function sendInvitationEmail(
     return { ok: true, id: null, skipped: true };
   }
 
-  const from = process.env.RESEND_FROM_EMAIL ?? "SickDesk <onboarding@resend.dev>";
+  const from = process.env.RESEND_FROM_EMAIL ?? "Leavicy <onboarding@resend.dev>";
   const { subject, html, text } = buildInvitationEmail(args);
 
   const resend = new Resend(apiKey);

@@ -8,5 +8,8 @@
   },
   "dependencies": {
     "eslint-config-next": "16.2.9"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.4"
   }
 }

@@ -9,12 +9,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "SickDesk Central";
+const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "Leavicy Central";
 
 export const metadata: Metadata = {
   title: `${APP_NAME} — Sick Leave`,
   description:
-    "Super-admin back-office for the SickDesk platform.",
+    "Super-admin back-office for the Leavicy platform.",
 };
 
 export default function RootLayout({
