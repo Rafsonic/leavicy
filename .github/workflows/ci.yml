@@ -88,6 +88,18 @@ jobs:
           SUPABASE_SECRET_KEY="${SERVICE_ROLE_KEY}" \
           pnpm test:integration
 
+      - name: Verify RLS / tenant isolation (verify:rls)
+        # Cross-tenant isolation smoke test against the seeded local DB.
+        run: pnpm verify:rls
+
+      - name: Check generated DB types are up to date
+        # Regenerates from the live schema; fails if a migration changed the
+        # schema without `pnpm db:types` being re-run and committed.
+        run: |
+          pnpm db:types
+          git diff --exit-code packages/database/src/database.types.ts \
+            || { echo "::error::database.types.ts is stale — run 'pnpm db:types' and commit."; exit 1; }
+
       - name: Stop Supabase
         if: always()
         run: supabase stop
@@ -125,7 +137,7 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm --filter @repo/e2e-tests exec playwright install --with-deps chromium
 
-      - name: Build portal & run E2E
+      - name: Build portal
         run: |
           set -a
           eval "$(supabase status -o env)"
@@ -135,6 +147,39 @@ jobs:
           export NEXT_PUBLIC_APP_NAME="Leavicy Portal"
           export SUPABASE_SECRET_KEY="${SERVICE_ROLE_KEY}"
           pnpm --filter portal build
+
+      - name: Verify auth / RBAC guards (verify:auth)
+        # Hits the running portal as different roles to assert route guards.
+        # Runs its own portal instance and frees :3560 before Playwright starts.
+        run: |
+          set -a
+          eval "$(supabase status -o env)"
+          set +a
+          export NEXT_PUBLIC_APP_NAME="Leavicy Portal"
+          export SUPABASE_SECRET_KEY="${SERVICE_ROLE_KEY}"
+          pnpm --filter portal start &
+          # Wait until the portal accepts connections (max ~120s).
+          for _ in $(seq 1 60); do
+            curl -sf http://127.0.0.1:3560 >/dev/null 2>&1 && break
+            sleep 2
+          done
+          set +e
+          pnpm verify:auth
+          rc=$?
+          set -e
+          # Free port 3560 so Playwright can bind its own server (no reuse in CI).
+          fuser -k 3560/tcp 2>/dev/null || true
+          exit $rc
+
+      - name: Run E2E (Playwright)
+        run: |
+          set -a
+          eval "$(supabase status -o env)"
+          set +a
+          export NEXT_PUBLIC_SUPABASE_URL="${API_URL}"
+          export NEXT_PUBLIC_SUPABASE_ANON_KEY="${ANON_KEY}"
+          export NEXT_PUBLIC_APP_NAME="Leavicy Portal"
+          export SUPABASE_SECRET_KEY="${SERVICE_ROLE_KEY}"
           pnpm test:e2e
 
       - name: Upload Playwright report & videos
