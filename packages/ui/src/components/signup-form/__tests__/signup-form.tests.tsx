@@ -44,15 +44,19 @@ describe("SignupForm", () => {
     expect(screen.getByRole("checkbox")).toBeTruthy();
   });
 
-  it("blocks submission and shows the consent error when consent is not given", async () => {
+  it("keeps the submit button disabled until consent is given", async () => {
     render(<SignupForm id="signup-form" />);
     fillValidFields();
-    fireEvent.click(screen.getByRole("button", { name: "Create account" }));
+    const submit = screen.getByRole("button", { name: "Create account" });
+    expect((submit as HTMLButtonElement).disabled).toBe(true);
 
-    expect(
-      await screen.findByText(/accept the privacy & cookie policy/i),
-    ).toBeTruthy();
+    fireEvent.click(submit);
     expect(mockedSignup).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole("checkbox"));
+    await waitFor(() =>
+      expect((submit as HTMLButtonElement).disabled).toBe(false),
+    );
   });
 
   it("submits to the signup action with consent once all fields are valid", async () => {

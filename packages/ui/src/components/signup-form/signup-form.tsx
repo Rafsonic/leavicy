@@ -20,11 +20,15 @@ export function SignupForm({ id }: SignupFormProps): React.JSX.Element {
     register,
     control,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<SignupValues>({
     resolver: standardSchemaResolver(signupSchema),
     defaultValues: { full_name: "", email: "", password: "", consent: false },
   });
+
+  // Consent is mandatory (GDPR lawful basis) — block submission until checked.
+  const consent = watch("consent");
 
   const onSubmit = async (values: SignupValues): Promise<void> => {
     setServerError(null);
@@ -132,7 +136,7 @@ export function SignupForm({ id }: SignupFormProps): React.JSX.Element {
         data-cy="signup-submit-button"
         type="submit"
         className="w-full"
-        disabled={isSubmitting}
+        disabled={isSubmitting || !consent}
       >
         {isSubmitting && <Loader2 className="size-4 animate-spin" />}
         {isSubmitting ? "Creating account…" : "Create account"}
