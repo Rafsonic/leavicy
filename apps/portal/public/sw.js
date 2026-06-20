@@ -55,6 +55,9 @@ self.addEventListener("activate", (event) => {
 
 // Allow the page to trigger an immediate activation after an update.
 self.addEventListener("message", (event) => {
+  // Defense-in-depth: only act on messages from a same-origin sender. A SW only
+  // receives messages from in-scope (same-origin) clients, but verify anyway.
+  if (event.origin && event.origin !== self.location.origin) return;
   if (event.data === "SKIP_WAITING") self.skipWaiting();
 });
 
