@@ -56,6 +56,32 @@ pnpm --filter central dev   # http://localhost:3550
 Env per app lives in `apps/<app>/.env.local` (already populated for local dev).
 See [`.env.example`](./.env.example) for the variables (app + MCP server secrets).
 
+### Prod-like local hostnames (optional)
+
+Run the apps behind prod-like hostnames with HTTPS and no ports, via the
+[`Caddyfile`](./Caddyfile) reverse proxy:
+
+| Local                              | Prod                       |
+| ---------------------------------- | -------------------------- |
+| `https://dev.portal.leavicy.com`   | `https://portal.leavicy.com`  |
+| `https://dev.central.leavicy.com`  | `https://central.leavicy.com` |
+
+One-time setup:
+
+```bash
+brew install caddy
+# point the hostnames at localhost
+sudo sh -c 'printf "\n127.0.0.1 dev.portal.leavicy.com dev.central.leavicy.com\n" >> /etc/hosts'
+# trust Caddy's local CA so HTTPS is valid (no browser warning)
+sudo caddy trust
+```
+
+Then, alongside `pnpm dev`:
+
+```bash
+pnpm dev:proxy              # sudo caddy run --config Caddyfile
+```
+
 ## Demo accounts
 
 Password for all: **`Password123!`**

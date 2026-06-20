@@ -28,7 +28,12 @@ import {
   DialogTrigger,
 } from "./dialog";
 
-export function NewRequestDialog() {
+export function NewRequestDialog({
+  closedDays = [],
+}: {
+  /** Company closed days (ISO `yyyy-mm-dd`) excluded from the working-day count. */
+  closedDays?: string[];
+} = {}) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -39,7 +44,10 @@ export function NewRequestDialog() {
   const [reason, setReason] = useState("");
 
   const days =
-    startDate && endDate ? workingDaysBetween(startDate, endDate) : 0;
+    startDate && endDate ? workingDaysBetween(startDate, endDate, closedDays) : 0;
+  const closedSet = new Set(closedDays);
+  const boundaryClosed =
+    closedSet.has(startDate) || closedSet.has(endDate);
 
   function reset() {
     setLeaveType("sick");
@@ -79,7 +87,7 @@ export function NewRequestDialog() {
     >
       <DialogTrigger
         render={
-          <Button>
+          <Button id="new-request-button" data-cy="new-request-button">
             <Plus className="size-4" />
             New request
           </Button>
@@ -143,6 +151,7 @@ export function NewRequestDialog() {
 
             <p className="text-sm text-muted-foreground">
               {days} working day{days === 1 ? "" : "s"}
+              {boundaryClosed && " · selected dates include a company closed day"}
             </p>
 
             <div className="space-y-2">
@@ -158,7 +167,12 @@ export function NewRequestDialog() {
           </div>
 
           <DialogFooter>
-            <Button type="submit" disabled={pending || days < 1}>
+            <Button
+              id="submit-leave-request-button"
+              data-cy="submit-leave-request-button"
+              type="submit"
+              disabled={pending || days < 1}
+            >
               {pending && <Loader2 className="size-4 animate-spin" />}
               {pending ? "Submitting…" : "Submit request"}
             </Button>

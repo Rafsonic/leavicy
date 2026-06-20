@@ -6,7 +6,7 @@ import {
   Inbox,
   TrendingDown,
 } from "lucide-react";
-import { requireActiveMembership } from "@repo/database/dal";
+import { requireActiveMembership, getClosedDates } from "@repo/database/dal";
 import { createClient } from "@repo/database/server";
 import { currentYear, formatDateRange, todayISO } from "@repo/database/format";
 import { canReview } from "@repo/database/types";
@@ -56,6 +56,7 @@ export default async function DashboardPage() {
   const supabase = await createClient();
   const year = currentYear();
   const today = todayISO();
+  const closedDates = await getClosedDates();
 
   const [{ data: myThisYear }, { data: myPending }, { data: recent }] =
     await Promise.all([
@@ -112,7 +113,7 @@ export default async function DashboardPage() {
       <PageHeader
         title="Dashboard"
         description={`Your sick leave overview at ${membership.organization.name}.`}
-        action={<NewRequestDialog />}
+        action={<NewRequestDialog closedDays={closedDates} />}
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

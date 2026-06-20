@@ -25,16 +25,29 @@ export async function createLeaveRequest(
   if (!startDate || !endDate) return { error: "Start and end dates are required." };
   if (endDate < startDate) return { error: "End date can't be before start date." };
 
-  const workingDays = workingDaysBetween(startDate, endDate);
-  if (workingDays < 1) {
-    return { error: "Selected range contains no working days." };
-  }
-
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated." };
+
+  // Company closed days within the range don't count as working days, and a
+  // request that lands entirely on closed/weekend days is rejected below.
+  const { data: closed } = await supabase
+    .from("company_closed_days")
+    .select("closed_date")
+    .eq("org_id", membership.org_id)
+    .gte("closed_date", startDate)
+    .lte("closed_date", endDate);
+  const closedDates = (closed ?? []).map((c) => c.closed_date);
+
+  const workingDays = workingDaysBetween(startDate, endDate, closedDates);
+  if (workingDays < 1) {
+    return {
+      error:
+        "Selected range has no working days — weekends and company closed days don't count.",
+    };
+  }
 
   const { error } = await supabase.from("leave_requests").insert({
     org_id: membership.org_id,

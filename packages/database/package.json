@@ -16,6 +16,7 @@
     "./actions/leave": "./src/actions/leave.ts",
     "./actions/approvals": "./src/actions/approvals.ts",
     "./actions/team": "./src/actions/team.ts",
+    "./actions/settings": "./src/actions/settings.ts",
     "./actions/onboarding": "./src/actions/onboarding.ts",
     "./actions/account": "./src/actions/account.ts"
   },

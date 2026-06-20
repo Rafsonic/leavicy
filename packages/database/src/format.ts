@@ -1,13 +1,30 @@
-/** Count working days (Mon–Fri) between two ISO dates, inclusive. */
-export function workingDaysBetween(start: string, end: string): number {
+/** Local `yyyy-mm-dd` for a Date (avoids the UTC shift of toISOString). */
+function localISO(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+/**
+ * Count working days (Mon–Fri) between two ISO dates, inclusive.
+ * Company closed days (ISO `yyyy-mm-dd`) are excluded as well, so a request
+ * never consumes allowance on a weekend or a public holiday / shutdown day.
+ */
+export function workingDaysBetween(
+  start: string,
+  end: string,
+  closedDays: readonly string[] = [],
+): number {
   const s = new Date(start + "T00:00:00");
   const e = new Date(end + "T00:00:00");
   if (e < s) return 0;
+  const closed = new Set(closedDays);
   let count = 0;
   const cur = new Date(s);
   while (cur <= e) {
     const day = cur.getDay();
-    if (day !== 0 && day !== 6) count++;
+    if (day !== 0 && day !== 6 && !closed.has(localISO(cur))) count++;
     cur.setDate(cur.getDate() + 1);
   }
   return count;

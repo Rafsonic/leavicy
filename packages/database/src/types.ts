@@ -10,6 +10,8 @@ export type Organization =
   Database["public"]["Tables"]["organizations"]["Row"];
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type Invitation = Database["public"]["Tables"]["invitations"]["Row"];
+export type ClosedDay =
+  Database["public"]["Tables"]["company_closed_days"]["Row"];
 
 export const ROLE_LABELS: Record<AppRole, string> = {
   admin: "Admin",

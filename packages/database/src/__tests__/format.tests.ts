@@ -27,6 +27,26 @@ describe("workingDaysBetween", () => {
   it("returns 0 when end is before start", () => {
     expect(workingDaysBetween("2024-01-05", "2024-01-01")).toBe(0);
   });
+
+  it("excludes a company closed day that falls on a weekday", () => {
+    // Mon–Fri = 5, with Wed (2024-01-03) closed -> 4
+    expect(workingDaysBetween("2024-01-01", "2024-01-05", ["2024-01-03"])).toBe(4);
+  });
+
+  it("ignores closed days that fall on a weekend (already excluded)", () => {
+    // 2024-01-06 is a Saturday; closing it changes nothing
+    expect(workingDaysBetween("2024-01-01", "2024-01-07", ["2024-01-06"])).toBe(5);
+  });
+
+  it("ignores closed days outside the range", () => {
+    expect(workingDaysBetween("2024-01-01", "2024-01-05", ["2024-02-01"])).toBe(5);
+  });
+
+  it("returns 0 when every weekday in range is closed", () => {
+    expect(
+      workingDaysBetween("2024-01-01", "2024-01-02", ["2024-01-01", "2024-01-02"]),
+    ).toBe(0);
+  });
 });
 
 describe("formatDate / formatDateRange", () => {

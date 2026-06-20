@@ -3,7 +3,7 @@ import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "./server";
-import type { AppRole } from "./types";
+import type { AppRole, ClosedDay } from "./types";
 
 export const ACTIVE_ORG_COOKIE = "active_org";
 
@@ -77,6 +77,25 @@ export async function requireActiveMembership() {
   const membership = await getActiveMembership();
   if (!membership) redirect("/onboarding");
   return { user, membership };
+}
+
+/** Company closed days (holidays / shutdowns) for the active org, ascending. */
+export const getClosedDays = cache(async (): Promise<ClosedDay[]> => {
+  const membership = await getActiveMembership();
+  if (!membership) return [];
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("company_closed_days")
+    .select("*")
+    .eq("org_id", membership.org_id)
+    .order("closed_date", { ascending: true });
+  return data ?? [];
+});
+
+/** Just the closed dates (ISO `yyyy-mm-dd`) for the active org. */
+export async function getClosedDates(): Promise<string[]> {
+  const days = await getClosedDays();
+  return days.map((d) => d.closed_date);
 }
 
 /** The current user's profile (name/avatar). */

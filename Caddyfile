@@ -1,0 +1,23 @@
+# Leavicy local dev reverse proxy
+#
+# Maps prod-like hostnames to the running Next.js dev servers, dropping the
+# ports and serving local HTTPS (Caddy's internal CA — run `caddy trust` once).
+#
+#   dev.portal.leavicy.com   -> portal  (next dev -p 3560)
+#   dev.central.leavicy.com  -> central (next dev -p 3550)
+#
+# Prereqs:
+#   1) /etc/hosts entries pointing both names at 127.0.0.1 (see README).
+#   2) `sudo caddy trust` once, to trust the local CA in the system keychain.
+#
+# Run:  pnpm dev:proxy   (wraps `sudo caddy run --config Caddyfile`)
+
+dev.portal.leavicy.com {
+	tls internal
+	reverse_proxy 127.0.0.1:3560
+}
+
+dev.central.leavicy.com {
+	tls internal
+	reverse_proxy 127.0.0.1:3550
+}

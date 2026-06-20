@@ -1,4 +1,4 @@
-import { requireActiveMembership } from "@repo/database/dal";
+import { requireActiveMembership, getClosedDates } from "@repo/database/dal";
 import { createClient } from "@repo/database/server";
 import { formatDateRange, formatDate } from "@repo/database/format";
 import { PageHeader } from "@repo/ui";
@@ -20,6 +20,7 @@ export const metadata = { title: "My requests · Leavicy" };
 export default async function RequestsPage() {
   const { user } = await requireActiveMembership();
   const supabase = await createClient();
+  const closedDates = await getClosedDates();
 
   const { data: requests } = await supabase
     .from("leave_requests")
@@ -34,7 +35,7 @@ export default async function RequestsPage() {
       <PageHeader
         title="My requests"
         description="Track and manage your sick leave requests."
-        action={<NewRequestDialog />}
+        action={<NewRequestDialog closedDays={closedDates} />}
       />
 
       <Card>

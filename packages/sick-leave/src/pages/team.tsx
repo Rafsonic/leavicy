@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { requireActiveMembership } from "@repo/database/dal";
+import { requireActiveMembership, getClosedDays } from "@repo/database/dal";
 import { createClient } from "@repo/database/server";
 import { PageHeader } from "@repo/ui";
 import { TeamMembers, type Member } from "@repo/ui";
@@ -8,6 +8,7 @@ import {
   InvitationsList,
   type PendingInvite,
 } from "@repo/ui";
+import { ClosedDaysManager } from "@repo/ui";
 import { OrgSettingsForm } from "@repo/ui";
 import {
   Card,
@@ -33,19 +34,21 @@ export default async function TeamPage() {
 
   const supabase = await createClient();
 
-  const [{ data: rawMembers }, { data: rawInvites }] = await Promise.all([
-    supabase
-      .from("memberships")
-      .select("id, user_id, role, annual_sick_days, profiles(full_name, email)")
-      .eq("org_id", membership.org_id)
-      .order("created_at", { ascending: true }),
-    supabase
-      .from("invitations")
-      .select("id, email, role, token")
-      .eq("org_id", membership.org_id)
-      .is("accepted_at", null)
-      .order("created_at", { ascending: false }),
-  ]);
+  const [{ data: rawMembers }, { data: rawInvites }, closedDays] =
+    await Promise.all([
+      supabase
+        .from("memberships")
+        .select("id, user_id, role, annual_sick_days, profiles(full_name, email)")
+        .eq("org_id", membership.org_id)
+        .order("created_at", { ascending: true }),
+      supabase
+        .from("invitations")
+        .select("id, email, role, token")
+        .eq("org_id", membership.org_id)
+        .is("accepted_at", null)
+        .order("created_at", { ascending: false }),
+      getClosedDays(),
+    ]);
 
   const members: Member[] = ((rawMembers ?? []) as unknown as MembershipRow[]).map(
     (m) => ({
@@ -102,6 +105,19 @@ export default async function TeamPage() {
         </CardHeader>
         <CardContent className="p-0 sm:p-0">
           <TeamMembers members={members} currentUserId={user.id} />
+        </CardContent>
+      </Card>
+
+      <Card className="mt-4">
+        <CardHeader>
+          <CardTitle className="text-base">Company closed days</CardTitle>
+          <CardDescription>
+            Public holidays and shutdown dates. Employees can&apos;t request
+            leave on these days, and they don&apos;t count towards a request.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ClosedDaysManager id="company-closed-days" closedDays={closedDays} />
         </CardContent>
       </Card>
 

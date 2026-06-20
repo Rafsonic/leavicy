@@ -88,3 +88,9 @@ values
   ('11111111-1111-1111-1111-111111111111', 'a0000000-0000-0000-0000-000000000002',
    'family_care', current_date + 1, current_date + 2, 2, 'Caring for sick child', 'pending',
    null, null, null);
+
+-- Company closed days for Acme Health (public holidays — Globex has none,
+-- so tenant isolation is observable). Fixed dates keep tests deterministic.
+insert into public.company_closed_days (org_id, closed_date, name) values
+  ('11111111-1111-1111-1111-111111111111', '2026-12-25', 'Christmas Day'),
+  ('11111111-1111-1111-1111-111111111111', '2026-12-28', 'Company shutdown');

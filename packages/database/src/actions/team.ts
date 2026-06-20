@@ -3,20 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { createClient } from "../server";
-import { getActiveMembership, getProfile } from "../dal";
+import { getProfile } from "../dal";
 import { ROLES, ROLE_LABELS, type AppRole } from "../types";
+import { requireAdminOrg } from "./guards";
 import { sendInvitationEmail } from "@repo/email/send-invitation";
 
 export type TeamActionState = { ok?: boolean; error?: string } | undefined;
-
-async function requireAdminOrg() {
-  const membership = await getActiveMembership();
-  if (!membership) return { error: "No active company." as const };
-  if (membership.role !== "admin") {
-    return { error: "Only admins can manage the team." as const };
-  }
-  return { orgId: membership.org_id, orgName: membership.organization.name };
-}
 
 /** Build the absolute origin of the current request (for invite links). */
 async function requestOrigin(): Promise<string> {
