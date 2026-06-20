@@ -126,10 +126,11 @@ jobs:
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v2
         with:
-          version: latest
+          # Pinned (not `latest`) so a floating CLI release can't break CI.
+          version: 2.107.0
         env:
           # Raises the GitHub API rate limit (60 → 5,000/h) so resolving the
-          # latest Supabase CLI release doesn't fail on shared CI runners.
+          # CLI release doesn't fail on shared CI runners.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start Supabase (applies migrations + seed)
@@ -184,10 +185,11 @@ jobs:
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v2
         with:
-          version: latest
+          # Pinned (not `latest`) so a floating CLI release can't break CI.
+          version: 2.107.0
         env:
           # Raises the GitHub API rate limit (60 → 5,000/h) so resolving the
-          # latest Supabase CLI release doesn't fail on shared CI runners.
+          # CLI release doesn't fail on shared CI runners.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start Supabase (applies migrations + seed)
