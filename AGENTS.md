@@ -8,7 +8,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Leavicy monorepo — agent guide
 
-Turborepo + pnpm workspaces. Three Next.js apps share a single Supabase backend
+Turborepo + pnpm workspaces. Two Next.js apps share a single Supabase backend
 and a set of shared packages.
 
 > **Communication language (MUST):** The user may write in English, Greek, or
@@ -24,7 +24,6 @@ and a set of shared packages.
 ```
 apps/
   portal/    Employee/company self-service  (port 3560, "Leavicy Portal")
-  crm/       HR / company management        (port 3555, "Leavicy CRM")
   central/   Super-admin back-office        (port 3550, "Leavicy Central")
 packages/
   ui/                Design system (shadcn/Base UI) + our feature components (@repo/ui)

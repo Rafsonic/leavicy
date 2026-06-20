@@ -76,55 +76,6 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
-  apps/crm:
-    dependencies:
-      '@repo/database':
-        specifier: workspace:*
-        version: link:../../packages/database
-      '@repo/sick-leave':
-        specifier: workspace:*
-        version: link:../../packages/sick-leave
-      '@repo/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      next:
-        specifier: 16.2.9
-        version: 16.2.9(@babel/core@7.29.7)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      react:
-        specifier: ^19.2.7
-        version: 19.2.7
-      react-dom:
-        specifier: ^19.2.7
-        version: 19.2.7(react@19.2.7)
-    devDependencies:
-      '@repo/eslint-config':
-        specifier: workspace:*
-        version: link:../../packages/eslint-config
-      '@repo/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
-      '@tailwindcss/postcss':
-        specifier: ^4.3.1
-        version: 4.3.1
-      '@types/node':
-        specifier: ^26.0.0
-        version: 26.0.0
-      '@types/react':
-        specifier: ^19.2.17
-        version: 19.2.17
-      '@types/react-dom':
-        specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.17)
-      eslint:
-        specifier: ^10.5.0
-        version: 10.5.0(patch_hash=5d0f99e993e50683fcf37d5def461bf7fd2a3da5818cf16828caf163710ea61d)(jiti@2.7.0)
-      tailwindcss:
-        specifier: ^4.3.1
-        version: 4.3.1
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
-
   apps/portal:
     dependencies:
       '@repo/database':

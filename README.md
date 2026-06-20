@@ -1,6 +1,6 @@
 # Leavicy — Multi-tenant Sick Leave Platform (Turborepo)
 
-A pnpm + Turborepo monorepo. Three Next.js 16 apps share a single Supabase
+A pnpm + Turborepo monorepo. Two Next.js 16 apps share a single Supabase
 backend and a set of shared packages.
 
 ## Apps
@@ -8,10 +8,9 @@ backend and a set of shared packages.
 | App           | Purpose                          | Port | `NEXT_PUBLIC_APP_NAME` |
 | ------------- | -------------------------------- | ---- | ---------------------- |
 | `apps/portal` | Employee / company self-service  | 3560 | Leavicy Portal        |
-| `apps/crm`    | HR / company management          | 3555 | Leavicy CRM           |
 | `apps/central`| Super-admin back-office          | 3550 | Leavicy Central       |
 
-All three consume the shared sick-leave feature; visibility is role-driven
+Both consume the shared sick-leave feature; visibility is role-driven
 (employee / manager / admin) via Postgres RLS.
 
 ## Packages
@@ -48,10 +47,9 @@ pnpm install
 pnpm supabase:start         # local Supabase on custom ports 55321–55327
 pnpm db:reset               # migrations + demo seed
 
-pnpm dev                    # run all three apps (turbo)
+pnpm dev                    # run both apps (turbo)
 # or a single app:
 pnpm --filter portal dev    # http://localhost:3560
-pnpm --filter crm dev       # http://localhost:3555
 pnpm --filter central dev   # http://localhost:3550
 ```
 

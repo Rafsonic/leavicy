@@ -39,7 +39,7 @@ describe("buildInvitationEmail", () => {
   });
 
   it("honors a custom app name", () => {
-    const { subject } = buildInvitationEmail({ ...base, appName: "Leavicy CRM" });
-    expect(subject).toContain("Leavicy CRM");
+    const { subject } = buildInvitationEmail({ ...base, appName: "Leavicy Portal" });
+    expect(subject).toContain("Leavicy Portal");
   });
 });

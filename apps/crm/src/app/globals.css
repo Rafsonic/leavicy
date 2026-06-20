@@ -1,5 +1,0 @@
-/* Shared theme + Tailwind (sources the @repo/ui and @repo/sick-leave packages). */
-@import "@repo/ui/styles.css";
-
-/* Also scan this app's own files for class names. */
-@source "../";
