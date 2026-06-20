@@ -15,6 +15,7 @@ build/
 # env files
 .env*
 !.env.example
+!.env.local.example
 
 # misc
 .DS_Store
