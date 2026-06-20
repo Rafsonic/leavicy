@@ -133,7 +133,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start Supabase (applies migrations + seed)
-        run: supabase start
+        # Exclude edge-runtime: the project ships no edge functions, and its
+        # container has been failing its health check (502) on CI runners.
+        run: supabase start -x edge-runtime
 
       - name: Run integration tests
         run: |
@@ -189,7 +191,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start Supabase (applies migrations + seed)
-        run: supabase start
+        # Exclude edge-runtime: the project ships no edge functions, and its
+        # container has been failing its health check (502) on CI runners.
+        run: supabase start -x edge-runtime
 
       - name: Install Playwright browsers
         run: pnpm --filter @repo/e2e-tests exec playwright install --with-deps chromium
