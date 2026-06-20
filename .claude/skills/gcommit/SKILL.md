@@ -49,7 +49,24 @@ Run the relevant suites and make sure they pass before committing
 (`pnpm test`, and `pnpm test:integration` / `pnpm test:e2e` when those layers
 changed). If tests fail, fix them — do not commit red tests.
 
-## 3. Stage and commit
+## 3. Coverage gate — ≥ 90% on the changed code (MUST)
+
+The code you commit must be **at least 90% covered**. This is *patch* coverage:
+it applies to the files you added or changed this session, **not** the whole
+repo.
+
+- Run `pnpm test:coverage` (unified v8 coverage across the monorepo). It writes
+  `coverage/coverage-summary.json` and `coverage/cobertura-coverage.xml`.
+- For **every source file you added or changed** this session, check its entry
+  in `coverage/coverage-summary.json` and confirm **lines ≥ 90% and branches ≥
+  90%**. Pure `*.types.ts` files are excluded and don't count.
+- If any changed file is below 90%, **add more tests** (error paths, branches,
+  edge cases) until it clears, then re-run. **Do not commit below 90%.**
+- This is the same gate CI enforces on the PR: the `coverage` job runs
+  `diff-cover` against the base branch and **fails the check under 90%**, posting
+  a patch-coverage comment. Clearing it locally keeps the PR green.
+
+## 4. Stage and commit
 
 - Stage **only** the explicit paths from step 1 **plus** the test files written
   in step 2 (the tests are part of this commit).
@@ -73,5 +90,6 @@ emoji credit. The commit message is the change description only.
 - Never stage or commit changes you did not make this session.
 - Never use bulk staging flags (`.`, `-A`, `-u`, `-a`).
 - Never commit without the covering tests, and never commit failing tests.
+- Never commit when a changed file is below 90% coverage — add tests first.
 - **Never push** without an explicit instruction to push in the current turn.
 - When in doubt about ownership of a change, ask the user rather than guessing.

@@ -48,6 +48,63 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-dummy-anon-key
           NEXT_PUBLIC_APP_NAME: Leavicy CI
 
+  coverage:
+    name: Patch coverage (≥ 90% on changed code)
+    # Patch coverage needs a base to diff against, so PRs only.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Full history so diff-cover can compare against the base branch.
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit tests with coverage
+        run: pnpm test:coverage
+
+      - name: Compute patch coverage
+        id: patch
+        run: |
+          pipx install diff-cover
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+          set +e
+          diff-cover coverage/cobertura-coverage.xml \
+            --compare-branch="origin/${{ github.base_ref }}" \
+            --fail-under=90 \
+            --markdown-report=coverage-patch.md
+          echo "rc=$?" >> "$GITHUB_OUTPUT"
+          set -e
+          # Mirror the report into the job summary for quick viewing.
+          cat coverage-patch.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment patch coverage on PR
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: patch-coverage
+          path: coverage-patch.md
+
+      - name: Enforce 90% patch coverage
+        if: steps.patch.outputs.rc != '0'
+        run: |
+          echo "::error::Patch coverage is below 90% on the changed code."
+          exit 1
+
   integration:
     name: Integration tests (live Supabase)
     runs-on: ubuntu-latest
