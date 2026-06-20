@@ -8,7 +8,8 @@ import {
   GLOBEX_ORG,
 } from "../helpers";
 
-const SUPER = "super@leavicy.test";
+const SUPER = "raf3sg@gmail.com";
+const SUPER_PASSWORD = "Leavicy2026!";
 
 describe("platform admin — super-admin manages all tenants", () => {
   let createdOrgId: string | null = null;
@@ -21,14 +22,14 @@ describe("platform admin — super-admin manages all tenants", () => {
   });
 
   it("reports is_platform_admin = true for the seeded super-admin", async () => {
-    const c = await signInAs(SUPER);
+    const c = await signInAs(SUPER, SUPER_PASSWORD);
     const { data, error } = await c.rpc("is_platform_admin");
     expect(error).toBeNull();
     expect(data).toBe(true);
   });
 
   it("sees ALL organizations across tenants", async () => {
-    const c = await signInAs(SUPER);
+    const c = await signInAs(SUPER, SUPER_PASSWORD);
     const { data, error } = await c.from("organizations").select("id");
     expect(error).toBeNull();
     const ids = (data ?? []).map((o) => o.id);
@@ -37,7 +38,7 @@ describe("platform admin — super-admin manages all tenants", () => {
   });
 
   it("returns platform-wide stats", async () => {
-    const c = await signInAs(SUPER);
+    const c = await signInAs(SUPER, SUPER_PASSWORD);
     const { data, error } = await c.rpc("get_platform_stats");
     expect(error).toBeNull();
     expect(data).toHaveLength(1);
@@ -46,7 +47,7 @@ describe("platform admin — super-admin manages all tenants", () => {
   });
 
   it("returns per-tenant stats with counts", async () => {
-    const c = await signInAs(SUPER);
+    const c = await signInAs(SUPER, SUPER_PASSWORD);
     const { data, error } = await c.rpc("get_tenant_stats");
     expect(error).toBeNull();
     const acme = ((data ?? []) as TenantStats[]).find(
@@ -57,7 +58,7 @@ describe("platform admin — super-admin manages all tenants", () => {
   });
 
   it("creates, updates and archives a tenant", async () => {
-    const c = await signInAs(SUPER);
+    const c = await signInAs(SUPER, SUPER_PASSWORD);
 
     const { data: newId, error: ce } = await c.rpc("admin_create_tenant", {
       _name: "Integration Test Tenant",

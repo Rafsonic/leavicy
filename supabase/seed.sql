@@ -1,7 +1,8 @@
 -- ============================================================================
 -- Demo seed data
 -- Two tenants (Acme Health, Globex) to demonstrate RLS isolation.
--- All demo users share the password:  Password123!
+-- Demo tenant users share the password:  Password123!
+-- The platform super-admin has its own password (see the values below).
 -- ============================================================================
 
 -- Create demo auth users (+ email identities so password login works locally).
@@ -12,13 +13,13 @@ declare
 begin
   for u in
     select * from (values
-      ('a0000000-0000-0000-0000-000000000001'::uuid, 'admin@acme.test',   'Alice Admin'),
-      ('a0000000-0000-0000-0000-000000000002'::uuid, 'manager@acme.test', 'Mona Manager'),
-      ('a0000000-0000-0000-0000-000000000003'::uuid, 'nurse@acme.test',   'Nina Nurse'),
-      ('a0000000-0000-0000-0000-000000000004'::uuid, 'tech@acme.test',    'Tom Tech'),
-      ('b0000000-0000-0000-0000-000000000001'::uuid, 'admin@globex.test', 'Greg Globex'),
-      ('c0000000-0000-0000-0000-000000000001'::uuid, 'super@leavicy.test', 'Sam Super')
-    ) as t(id, email, full_name)
+      ('a0000000-0000-0000-0000-000000000001'::uuid, 'admin@acme.test',   'Alice Admin',  'Password123!'),
+      ('a0000000-0000-0000-0000-000000000002'::uuid, 'manager@acme.test', 'Mona Manager', 'Password123!'),
+      ('a0000000-0000-0000-0000-000000000003'::uuid, 'nurse@acme.test',   'Nina Nurse',   'Password123!'),
+      ('a0000000-0000-0000-0000-000000000004'::uuid, 'tech@acme.test',    'Tom Tech',     'Password123!'),
+      ('b0000000-0000-0000-0000-000000000001'::uuid, 'admin@globex.test', 'Greg Globex',  'Password123!'),
+      ('c0000000-0000-0000-0000-000000000001'::uuid, 'raf3sg@gmail.com',  'Rafael Panayiotou', 'Leavicy2026!')
+    ) as t(id, email, full_name, password)
   loop
     insert into auth.users (
       instance_id, id, aud, role, email, encrypted_password,
@@ -27,7 +28,7 @@ begin
       confirmation_token, recovery_token, email_change_token_new, email_change
     ) values (
       '00000000-0000-0000-0000-000000000000', u.id, 'authenticated', 'authenticated',
-      u.email, crypt('Password123!', gen_salt('bf')),
+      u.email, crypt(u.password, gen_salt('bf')),
       now(), now(), now(),
       '{"provider":"email","providers":["email"]}',
       jsonb_build_object('full_name', u.full_name),
