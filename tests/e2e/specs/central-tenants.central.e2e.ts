@@ -1,9 +1,13 @@
 import { test, expect, type Page } from "@playwright/test";
 
-async function login(page: Page, email: string): Promise<void> {
+async function login(
+  page: Page,
+  email: string,
+  password = "Password123!",
+): Promise<void> {
   await page.goto("/login");
   await page.fill('input[name="email"]', email);
-  await page.fill('input[name="password"]', "Password123!");
+  await page.fill('input[name="password"]', password);
   await page.click('button[type="submit"]');
 }
 
@@ -15,7 +19,7 @@ test("redirects anonymous users to the login page", async ({ page }) => {
 test("super-admin signs in and reaches the platform dashboard", async ({
   page,
 }) => {
-  await login(page, "super@leavicy.test");
+  await login(page, "raf3sg@gmail.com", "Leavicy2026!");
   await page.waitForURL("**/dashboard");
   await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
   // A platform stat card is shown
@@ -23,7 +27,7 @@ test("super-admin signs in and reaches the platform dashboard", async ({
 });
 
 test("super-admin can open the tenants management page", async ({ page }) => {
-  await login(page, "super@leavicy.test");
+  await login(page, "raf3sg@gmail.com", "Leavicy2026!");
   await page.waitForURL("**/dashboard");
   await page.goto("/tenants");
   await expect(page.getByRole("heading", { name: "Tenants" })).toBeVisible();
