@@ -11,6 +11,11 @@ This version has breaking changes — APIs, conventions, and file structure may 
 Turborepo + pnpm workspaces. Three Next.js apps share a single Supabase backend
 and a set of shared packages.
 
+> **Communication language (MUST):** The user may write in English, Greek, or
+> Greeklish (Greek transliterated in Latin letters). Regardless of how the user
+> writes, **always reply in Greek.** Keep code, identifiers, file paths,
+> commands, and technical terms as-is.
+
 > **Project rules (MUST follow)** live in [`dev-rules.md`](./dev-rules.md),
 > imported alongside this guide from `CLAUDE.md`.
 
