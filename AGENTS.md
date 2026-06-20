@@ -18,9 +18,9 @@ and a set of shared packages.
 
 ```
 apps/
-  portal/    Employee/company self-service  (port 3100, "Leavicy Portal")
-  crm/       HR / company management        (port 3200, "Leavicy CRM")
-  central/   Super-admin back-office        (port 3300, "Leavicy Central")
+  portal/    Employee/company self-service  (port 3560, "Leavicy Portal")
+  crm/       HR / company management        (port 3555, "Leavicy CRM")
+  central/   Super-admin back-office        (port 3550, "Leavicy Central")
 packages/
   ui/                Design system (shadcn/Base UI) + our feature components (@repo/ui)
   database/          Supabase clients, DAL, types, server actions (@repo/database)
@@ -60,7 +60,7 @@ app's route files are thin re-exports; the real views live in `packages/sick-lea
 - `pnpm dev` — run all apps (turbo) · `pnpm --filter portal dev` — one app
 - `pnpm build` / `pnpm typecheck` / `pnpm lint` / `pnpm test`
 - `pnpm test:integration` — live-Supabase integration tests (needs `pnpm supabase:start`)
-- `pnpm test:e2e` — Playwright e2e (needs Supabase + a built portal; Playwright serves it on :3100)
+- `pnpm test:e2e` — Playwright e2e (needs Supabase + a built portal; Playwright serves it on :3560)
 - `pnpm db:reset` — recreate DB from migrations + seed
 - `pnpm verify:rls` / `pnpm verify:auth` — security & smoke tests
 

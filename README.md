@@ -7,9 +7,9 @@ backend and a set of shared packages.
 
 | App           | Purpose                          | Port | `NEXT_PUBLIC_APP_NAME` |
 | ------------- | -------------------------------- | ---- | ---------------------- |
-| `apps/portal` | Employee / company self-service  | 3100 | Leavicy Portal        |
-| `apps/crm`    | HR / company management          | 3200 | Leavicy CRM           |
-| `apps/central`| Super-admin back-office          | 3300 | Leavicy Central       |
+| `apps/portal` | Employee / company self-service  | 3560 | Leavicy Portal        |
+| `apps/crm`    | HR / company management          | 3555 | Leavicy CRM           |
+| `apps/central`| Super-admin back-office          | 3550 | Leavicy Central       |
 
 All three consume the shared sick-leave feature; visibility is role-driven
 (employee / manager / admin) via Postgres RLS.
@@ -50,9 +50,9 @@ pnpm db:reset               # migrations + demo seed
 
 pnpm dev                    # run all three apps (turbo)
 # or a single app:
-pnpm --filter portal dev    # http://localhost:3100
-pnpm --filter crm dev       # http://localhost:3200
-pnpm --filter central dev   # http://localhost:3300
+pnpm --filter portal dev    # http://localhost:3560
+pnpm --filter crm dev       # http://localhost:3555
+pnpm --filter central dev   # http://localhost:3550
 ```
 
 Env per app lives in `apps/<app>/.env.local` (already populated for local dev).
@@ -80,9 +80,9 @@ Password for all: **`Password123!`**
 | `pnpm db:types`             | Regenerate `@repo/database` types           |
 | `pnpm test`                 | Unit tests (Vitest) across packages         |
 | `pnpm test:integration`     | Live-Supabase integration tests (RLS/RPCs)  |
-| `pnpm test:e2e`             | Playwright e2e (builds/serves portal:3100)  |
+| `pnpm test:e2e`             | Playwright e2e (builds/serves portal:3560)  |
 | `pnpm verify:rls`           | Multi-tenant RLS isolation tests            |
-| `pnpm verify:auth`          | Authenticated page smoke test (portal:3100) |
+| `pnpm verify:auth`          | Authenticated page smoke test (portal:3560) |
 | `pnpm gdpr:purge`           | Run the retention/auto-delete job           |
 
 ## Tooling versions

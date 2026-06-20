@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback } from "./avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -99,17 +100,19 @@ function OrgSwitcher({
         <ChevronsUpDown className="size-4 shrink-0 opacity-60" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
-        <DropdownMenuLabel>Companies</DropdownMenuLabel>
-        {memberships.map((m) => (
-          <DropdownMenuItem
-            key={m.org_id}
-            onClick={() => switchOrg(m.org_id)}
-            className="justify-between"
-          >
-            <span className="truncate">{m.name}</span>
-            {m.org_id === activeOrg.id && <Check className="size-4" />}
-          </DropdownMenuItem>
-        ))}
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Companies</DropdownMenuLabel>
+          {memberships.map((m) => (
+            <DropdownMenuItem
+              key={m.org_id}
+              onClick={() => switchOrg(m.org_id)}
+              className="justify-between"
+            >
+              <span className="truncate">{m.name}</span>
+              {m.org_id === activeOrg.id && <Check className="size-4" />}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -141,9 +144,11 @@ function UserMenu({ profile, role }: Pick<SidebarProps, "profile" | "role">) {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
-        <DropdownMenuLabel className="truncate">
-          {profile.email}
-        </DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel className="truncate">
+            {profile.email}
+          </DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem render={<Link href="/account" />}>
           <ShieldCheck className="size-4" />
@@ -211,17 +216,21 @@ export function AppSidebar(props: SidebarProps) {
                 </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />
-              <DropdownMenuLabel>Switch company</DropdownMenuLabel>
-              {props.memberships.map((m) => (
-                <DropdownMenuItem
-                  key={m.org_id}
-                  onClick={() => switchOrg(m.org_id)}
-                  className="justify-between"
-                >
-                  <span className="truncate">{m.name}</span>
-                  {m.org_id === props.activeOrg.id && <Check className="size-4" />}
-                </DropdownMenuItem>
-              ))}
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>Switch company</DropdownMenuLabel>
+                {props.memberships.map((m) => (
+                  <DropdownMenuItem
+                    key={m.org_id}
+                    onClick={() => switchOrg(m.org_id)}
+                    className="justify-between"
+                  >
+                    <span className="truncate">{m.name}</span>
+                    {m.org_id === props.activeOrg.id && (
+                      <Check className="size-4" />
+                    )}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem render={<Link href="/account" />}>
                 <ShieldCheck className="size-4" />

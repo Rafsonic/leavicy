@@ -152,7 +152,7 @@ export default async function DashboardPage() {
                 {awaitingCount === 1 ? "" : "s"} awaiting your approval.
               </span>
             </div>
-            <Button size="sm" render={<Link href="/approvals" />}>
+            <Button size="sm" nativeButton={false} render={<Link href="/approvals" />}>
               Review
             </Button>
           </CardContent>

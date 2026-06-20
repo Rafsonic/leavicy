@@ -4,7 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 
 const URL = "http://127.0.0.1:55321";
 const ANON = "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH";
-const APP = "http://127.0.0.1:3100";
+const APP = "http://127.0.0.1:3560";
 
 async function cookieHeaderFor(email) {
   const jar = new Map();
