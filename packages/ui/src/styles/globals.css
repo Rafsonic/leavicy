@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import "./shadcn-base.css";
 
 /* Monorepo: scan shared package sources for class names (paths are relative
    to this file). Each app additionally sources its own files. */

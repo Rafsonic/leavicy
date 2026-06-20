@@ -69,6 +69,28 @@ export async function requireUser() {
 }
 
 /**
+ * Is the current user a platform super-admin (Leavicy staff)? Memoized.
+ * Backed by the `is_platform_admin()` SECURITY DEFINER RPC.
+ */
+export const isPlatformAdmin = cache(async (): Promise<boolean> => {
+  const user = await getCurrentUser();
+  if (!user) return false;
+  const supabase = await createClient();
+  const { data } = await supabase.rpc("is_platform_admin");
+  return data === true;
+});
+
+/**
+ * Require a platform super-admin (Central back-office). Redirects to /login if
+ * not authenticated or not a platform admin — tenant users never reach Central.
+ */
+export async function requirePlatformAdmin() {
+  const user = await requireUser();
+  if (!(await isPlatformAdmin())) redirect("/login");
+  return user;
+}
+
+/**
  * Require an authenticated user WITH an active org membership.
  * Redirects to /login or /onboarding as appropriate.
  */

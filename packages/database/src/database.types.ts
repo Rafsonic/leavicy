@@ -207,18 +207,36 @@ export type Database = {
           id: string
           name: string
           slug: string
+          status: Database["public"]["Enums"]["org_status"]
         }
         Insert: {
           created_at?: string
           id?: string
           name: string
           slug: string
+          status?: Database["public"]["Enums"]["org_status"]
         }
         Update: {
           created_at?: string
           id?: string
           name?: string
           slug?: string
+          status?: Database["public"]["Enums"]["org_status"]
+        }
+        Relationships: []
+      }
+      platform_admins: {
+        Row: {
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -255,8 +273,40 @@ export type Database = {
     }
     Functions: {
       accept_invitation: { Args: { _token: string }; Returns: string }
+      admin_create_tenant: {
+        Args: { _name: string; _slug?: string }
+        Returns: string
+      }
+      admin_set_tenant_status: {
+        Args: {
+          _org: string
+          _status: Database["public"]["Enums"]["org_status"]
+        }
+        Returns: undefined
+      }
+      admin_update_tenant: {
+        Args: {
+          _name: string
+          _org: string
+          _slug: string
+          _status: Database["public"]["Enums"]["org_status"]
+        }
+        Returns: undefined
+      }
       create_organization: { Args: { _name: string }; Returns: string }
       export_my_data: { Args: never; Returns: Json }
+      get_platform_stats: {
+        Args: never
+        Returns: {
+          active_tenants: number
+          archived_tenants: number
+          pending_requests: number
+          suspended_tenants: number
+          total_requests: number
+          total_tenants: number
+          total_users: number
+        }[]
+      }
       get_team_calendar: {
         Args: { _org: string }
         Returns: {
@@ -269,6 +319,19 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_tenant_stats: {
+        Args: never
+        Returns: {
+          created_at: string
+          member_count: number
+          name: string
+          org_id: string
+          pending_count: number
+          request_count: number
+          slug: string
+          status: Database["public"]["Enums"]["org_status"]
+        }[]
+      }
       has_org_role: {
         Args: {
           _org: string
@@ -277,6 +340,7 @@ export type Database = {
         Returns: boolean
       }
       is_org_member: { Args: { _org: string }; Returns: boolean }
+      is_platform_admin: { Args: never; Returns: boolean }
       purge_expired_data: { Args: never; Returns: Json }
       shares_org: { Args: { _uid: string }; Returns: boolean }
     }
@@ -289,6 +353,7 @@ export type Database = {
         | "family_care"
         | "medical_appointment"
         | "other"
+      org_status: "active" | "suspended" | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -428,6 +493,7 @@ export const Constants = {
         "medical_appointment",
         "other",
       ],
+      org_status: ["active", "suspended", "archived"],
     },
   },
 } as const

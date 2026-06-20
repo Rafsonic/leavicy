@@ -16,7 +16,8 @@ begin
       ('a0000000-0000-0000-0000-000000000002'::uuid, 'manager@acme.test', 'Mona Manager'),
       ('a0000000-0000-0000-0000-000000000003'::uuid, 'nurse@acme.test',   'Nina Nurse'),
       ('a0000000-0000-0000-0000-000000000004'::uuid, 'tech@acme.test',    'Tom Tech'),
-      ('b0000000-0000-0000-0000-000000000001'::uuid, 'admin@globex.test', 'Greg Globex')
+      ('b0000000-0000-0000-0000-000000000001'::uuid, 'admin@globex.test', 'Greg Globex'),
+      ('c0000000-0000-0000-0000-000000000001'::uuid, 'super@leavicy.test', 'Sam Super')
     ) as t(id, email, full_name)
   loop
     insert into auth.users (
@@ -59,6 +60,11 @@ insert into public.memberships (org_id, user_id, role, annual_sick_days) values
 -- Membership (Globex) — separate tenant, must never see Acme data
 insert into public.memberships (org_id, user_id, role, annual_sick_days) values
   ('22222222-2222-2222-2222-222222222222', 'b0000000-0000-0000-0000-000000000001', 'admin',    12);
+
+-- Platform super-admin (Leavicy staff) — manages tenants in Central.
+-- Deliberately has NO membership row: super-admin is independent of any tenant.
+insert into public.platform_admins (user_id) values
+  ('c0000000-0000-0000-0000-000000000001');
 
 -- Sample leave requests for Acme Health
 insert into public.leave_requests

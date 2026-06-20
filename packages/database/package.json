@@ -18,7 +18,8 @@
     "./actions/team": "./src/actions/team.ts",
     "./actions/settings": "./src/actions/settings.ts",
     "./actions/onboarding": "./src/actions/onboarding.ts",
-    "./actions/account": "./src/actions/account.ts"
+    "./actions/account": "./src/actions/account.ts",
+    "./actions/tenants": "./src/actions/tenants.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

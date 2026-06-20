@@ -38,6 +38,12 @@ export * from "./components/type-badge";
 // Form building blocks (own directories)
 export * from "./components/input-field/input-field";
 
+// Central (super-admin) components (own directories)
+export * from "./components/central-sidebar/central-sidebar";
+export * from "./components/tenant-stat-cards/tenant-stat-cards";
+export * from "./components/tenants-table/tenants-table";
+export * from "./components/tenant-form-dialog/tenant-form-dialog";
+
 // Auth forms (own directories)
 export * from "./components/login-form/login-form";
 export * from "./components/signup-form/signup-form";
@@ -51,6 +57,10 @@ export type * from "./components/app-sidebar.types";
 export type * from "./components/invitations-list.types";
 export type * from "./components/team-members.types";
 export type * from "./components/input-field/input-field.types";
+export type * from "./components/central-sidebar/central-sidebar.types";
+export type * from "./components/tenant-stat-cards/tenant-stat-cards.types";
+export type * from "./components/tenants-table/tenants-table.types";
+export type * from "./components/tenant-form-dialog/tenant-form-dialog.types";
 export type * from "./components/login-form/login-form.types";
 export type * from "./components/signup-form/signup-form.types";
 export type * from "./components/data-export-button/data-export-button.types";
