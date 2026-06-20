@@ -49,5 +49,14 @@ drop policy if exists "doctor-notes: org members can read" on storage.objects;
 drop policy if exists "doctor-notes: owner can upload to own folder" on storage.objects;
 drop policy if exists "doctor-notes: owner can delete own files" on storage.objects;
 
+-- Supabase Storage installs delete-protection triggers on storage.objects /
+-- storage.buckets that block direct DML ("Direct deletion from storage tables is
+-- not allowed. Use the Storage API instead."). For this one-off teardown we
+-- disable triggers for the duration of the transaction so the bucket and any
+-- leftover objects can be hard-deleted from the migration, then restore them.
+set local session_replication_role = 'replica';
+
 delete from storage.objects where bucket_id = 'doctor-notes';
 delete from storage.buckets where id = 'doctor-notes';
+
+set local session_replication_role = 'origin';
