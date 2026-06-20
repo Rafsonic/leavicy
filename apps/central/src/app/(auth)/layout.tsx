@@ -1,1 +1,1 @@
-export { default } from "@repo/sick-leave/layouts/auth-layout";
+export { default } from "@repo/leavicy/layouts/auth-layout";

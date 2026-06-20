@@ -274,7 +274,7 @@ tenant-scoped tables that don't exist yet and will be added by migration (each w
 - **Shared backend:** a single Supabase project (Postgres) with RLS enforcing
   tenant and role boundaries.
 - **Shared packages:** design system (`@repo/ui`), data access (`@repo/database`),
-  email (`@repo/email`), shared leave views (`@repo/sick-leave`), utilities
+  email (`@repo/email`), shared leave views (`@repo/leavicy`), utilities
   (`@repo/utils`), and shared tooling configs.
 
 ## 10. Compliance & data residency

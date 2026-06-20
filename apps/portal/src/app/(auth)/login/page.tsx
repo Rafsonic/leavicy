@@ -1,1 +1,1 @@
-export { default, metadata } from "@repo/sick-leave/pages/login";
+export { default, metadata } from "@repo/leavicy/pages/login";

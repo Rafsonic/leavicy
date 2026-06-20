@@ -1,1 +1,1 @@
-export { default } from "@repo/sick-leave/pages/home";
+export { default } from "@repo/leavicy/pages/home";

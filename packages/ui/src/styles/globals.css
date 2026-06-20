@@ -5,7 +5,7 @@
 /* Monorepo: scan shared package sources for class names (paths are relative
    to this file). Each app additionally sources its own files. */
 @source "../components";
-@source "../../../sick-leave/src";
+@source "../../../leavicy/src";
 
 @custom-variant dark (&:is(.dark *));
 

@@ -10,7 +10,7 @@ backend and a set of shared packages.
 | `apps/portal` | Employee / company self-service  | 3560 | Leavicy Portal        |
 | `apps/central`| Super-admin back-office          | 3550 | Leavicy Central       |
 
-Both consume the shared sick-leave feature; visibility is role-driven
+Both consume the shared leave feature (`@repo/leavicy`); visibility is role-driven
 (employee / manager / admin) via Postgres RLS.
 
 ## Packages
@@ -20,12 +20,12 @@ Both consume the shared sick-leave feature; visibility is role-driven
 | `@repo/ui`                  | shadcn/ui (Base UI) primitives + our feature components, theme |
 | `@repo/database`            | Supabase clients, DAL, types, `format`, server actions       |
 | `@repo/email`               | Resend client + invitation email template                    |
-| `@repo/sick-leave`          | Shared route views (`pages/*`) and layouts (`layouts/*`)     |
+| `@repo/leavicy`          | Shared route views (`pages/*`) and layouts (`layouts/*`)     |
 | `@repo/typescript-config`   | Shared `tsconfig` presets                                     |
 | `@repo/eslint-config`       | Shared ESLint flat config                                     |
 | `@repo/vitest-config`       | Shared Vitest config (`/base` node, `/react` jsdom)          |
 
-Each app's route files are thin re-exports of `@repo/sick-leave/*`; the real
+Each app's route files are thin re-exports of `@repo/leavicy/*`; the real
 logic lives in the packages.
 
 ## Conventions (enforced — see `AGENTS.md`)

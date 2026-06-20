@@ -29,7 +29,7 @@ packages/
   ui/                Design system (shadcn/Base UI) + our feature components (@repo/ui)
   database/          Supabase clients, DAL, types, server actions (@repo/database)
   email/             Resend client + invitation email template (@repo/email)
-  sick-leave/        Shared route views + layouts (@repo/sick-leave)
+  leavicy/           Shared route views + layouts (@repo/leavicy)
   typescript-config/ Shared tsconfig presets (@repo/typescript-config)
   eslint-config/     Shared ESLint flat config (@repo/eslint-config)
   vitest-config/     Shared Vitest config: /base (node), /react (jsdom) (@repo/vitest-config)
@@ -38,8 +38,8 @@ tests/integration/   Live-Supabase integration tests (RLS, RPCs, leave lifecycle
 tests/e2e/           Playwright e2e (auth/RBAC against the running portal)
 ```
 
-Apps consume the shared feature by re-exporting from `@repo/sick-leave/*`. Each
-app's route files are thin re-exports; the real views live in `packages/sick-leave`.
+Apps consume the shared feature by re-exporting from `@repo/leavicy/*`. Each
+app's route files are thin re-exports; the real views live in `packages/leavicy`.
 
 ## Notes specific to Next.js 16 here
 

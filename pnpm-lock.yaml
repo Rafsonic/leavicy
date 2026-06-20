@@ -32,9 +32,9 @@ importers:
       '@repo/database':
         specifier: workspace:*
         version: link:../../packages/database
-      '@repo/sick-leave':
+      '@repo/leavicy':
         specifier: workspace:*
-        version: link:../../packages/sick-leave
+        version: link:../../packages/leavicy
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -81,9 +81,9 @@ importers:
       '@repo/database':
         specifier: workspace:*
         version: link:../../packages/database
-      '@repo/sick-leave':
+      '@repo/leavicy':
         specifier: workspace:*
-        version: link:../../packages/sick-leave
+        version: link:../../packages/leavicy
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -200,7 +200,7 @@ importers:
         specifier: ^10.5.0
         version: 10.5.0(patch_hash=5d0f99e993e50683fcf37d5def461bf7fd2a3da5818cf16828caf163710ea61d)(jiti@2.7.0)
 
-  packages/sick-leave:
+  packages/leavicy:
     dependencies:
       '@repo/database':
         specifier: workspace:*
