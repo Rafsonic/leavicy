@@ -70,6 +70,10 @@ jobs:
         uses: supabase/setup-cli@v2
         with:
           version: latest
+        env:
+          # Raises the GitHub API rate limit (60 → 5,000/h) so resolving the
+          # latest Supabase CLI release doesn't fail on shared CI runners.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start Supabase (applies migrations + seed)
         run: supabase start
@@ -110,6 +114,10 @@ jobs:
         uses: supabase/setup-cli@v2
         with:
           version: latest
+        env:
+          # Raises the GitHub API rate limit (60 → 5,000/h) so resolving the
+          # latest Supabase CLI release doesn't fail on shared CI runners.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start Supabase (applies migrations + seed)
         run: supabase start
