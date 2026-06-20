@@ -58,20 +58,36 @@ See [`.env.example`](./.env.example) for the variables (app + MCP server secrets
 
 ### Prod-like local hostnames (optional)
 
-Run the apps behind prod-like hostnames with HTTPS and no ports, via the
-[`Caddyfile`](./Caddyfile) reverse proxy:
+Run the apps behind prod-like hostnames with HTTPS and no ports:
 
-| Local                              | Prod                       |
-| ---------------------------------- | -------------------------- |
-| `https://dev.portal.leavicy.com`   | `https://portal.leavicy.com`  |
-| `https://dev.central.leavicy.com`  | `https://central.leavicy.com` |
+| App     | Local URL                          | Dev server               | Prod                          |
+| ------- | ---------------------------------- | ------------------------ | ----------------------------- |
+| Portal  | `https://dev.portal.leavicy.com`   | `http://localhost:3560`  | `https://portal.leavicy.com`  |
+| Central | `https://dev.central.leavicy.com`  | `http://localhost:3550`  | `https://central.leavicy.com` |
 
-One-time setup:
+First, point both hostnames at localhost (needed for either option below):
+
+```bash
+sudo sh -c 'printf "\n127.0.0.1 dev.portal.leavicy.com dev.central.leavicy.com\n" >> /etc/hosts'
+```
+
+#### Option A — Laravel Herd (if Herd is installed)
+
+Herd's bundled nginx owns ports **80/443**, so Caddy can't bind them — use Herd as
+the reverse proxy instead. The proxy server-blocks + TLS certs (signed by Herd's
+already-trusted CA) live alongside Herd's other sites under
+`~/Library/Application Support/Herd/config/valet/`, so they survive Herd restarts.
+With the apps running (`pnpm dev`) the hostnames just work — no extra process to run.
+
+> Note: these are added manually (Herd's `herd proxy` forces its own `.test` TLD),
+> so they won't appear in `herd proxies` — but they route normally.
+
+#### Option B — Caddy (no Herd)
+
+Run the apps behind the [`Caddyfile`](./Caddyfile) reverse proxy:
 
 ```bash
 brew install caddy
-# point the hostnames at localhost
-sudo sh -c 'printf "\n127.0.0.1 dev.portal.leavicy.com dev.central.leavicy.com\n" >> /etc/hosts'
 # trust Caddy's local CA so HTTPS is valid (no browser warning)
 sudo caddy trust
 ```
