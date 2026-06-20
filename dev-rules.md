@@ -60,6 +60,17 @@
 - **Functional components only** — never class components; prefer hooks over class-based patterns.
 - Use **arrow functions** and **always include explicit return types**.
 - Use proper **TypeScript types — never `any`**.
+- **Always type `useState` explicitly** — pass the type parameter on every
+  `useState`, even when it could be inferred (including `<boolean>`). Never rely on
+  inference from the initial value.
+
+  ```tsx
+  // Wrong — relies on inference:
+  const [agreed, setAgreed] = useState(false);
+
+  // Right — explicit type parameter:
+  const [agreed, setAgreed] = useState<boolean>(false);
+  ```
 - Keep components **small, modular, and reusable**.
 - **Do not rewrite or modify files unrelated to the current task.**
 - Prefer **simple, clean, readable** solutions over clever ones.
