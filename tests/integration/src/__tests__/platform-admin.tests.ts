@@ -1,4 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
+import type { TenantStats } from "@repo/database/types";
 import {
   adminClient,
   anonClient,
@@ -48,7 +49,9 @@ describe("platform admin — super-admin manages all tenants", () => {
     const c = await signInAs(SUPER);
     const { data, error } = await c.rpc("get_tenant_stats");
     expect(error).toBeNull();
-    const acme = (data ?? []).find((t) => t.org_id === ACME_ORG);
+    const acme = ((data ?? []) as TenantStats[]).find(
+      (t) => t.org_id === ACME_ORG,
+    );
     expect(acme).toBeTruthy();
     expect(acme!.member_count).toBeGreaterThanOrEqual(1);
   });

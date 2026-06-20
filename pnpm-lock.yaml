@@ -363,6 +363,9 @@ importers:
         specifier: ^2.108.2
         version: 2.108.2
     devDependencies:
+      '@repo/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
