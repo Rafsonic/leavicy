@@ -84,9 +84,9 @@ describe("LoginForm", () => {
     expect(await screen.findByText(/invalid login credentials/i)).toBeTruthy();
   });
 
-  it("links to the signup page", () => {
+  it("does not render any signup link (signup is app-specific, not part of the form)", () => {
     render(<LoginForm id="login-form" />);
-    const link = screen.getByRole("link", { name: "Sign up" });
-    expect(link.getAttribute("href")).toBe("/signup");
+    expect(screen.queryByRole("link", { name: "Sign up" })).toBeNull();
+    expect(screen.queryByText(/no account/i)).toBeNull();
   });
 });

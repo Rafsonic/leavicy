@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
-import Link from "next/link";
 import { Loader2, AlertCircle } from "lucide-react";
 import { login } from "@repo/database/actions/auth";
 import { Button } from "../button";
@@ -78,13 +77,6 @@ export function LoginForm({ id }: LoginFormProps): React.JSX.Element {
         {isSubmitting && <Loader2 className="size-4 animate-spin" />}
         {isSubmitting ? "Signing in…" : "Sign in"}
       </Button>
-
-      <p className="text-center text-sm text-muted-foreground">
-        No account?{" "}
-        <Link href="/signup" className="text-foreground underline">
-          Sign up
-        </Link>
-      </p>
     </form>
   );
 }

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
   Card,
@@ -20,8 +21,14 @@ export default async function LoginPage() {
         <CardTitle>Welcome back</CardTitle>
         <CardDescription>Sign in to your Leavicy account.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
         <LoginForm id="login-form" />
+        <p className="text-center text-sm text-muted-foreground">
+          No account?{" "}
+          <Link href="/signup" className="text-foreground underline">
+            Sign up
+          </Link>
+        </p>
       </CardContent>
     </Card>
   );
