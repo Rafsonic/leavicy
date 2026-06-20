@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@repo/ui";
-import { AuthForm } from "@repo/ui";
+import { LoginForm } from "@repo/ui";
 import { getCurrentUser } from "@repo/database/dal";
 
 export const metadata = { title: "Sign in · Leavicy" };
@@ -15,13 +15,13 @@ export default async function LoginPage() {
   if (await getCurrentUser()) redirect("/");
 
   return (
-    <Card>
+    <Card data-component="LoginPage" data-cy="login-page">
       <CardHeader>
         <CardTitle>Welcome back</CardTitle>
         <CardDescription>Sign in to your Leavicy account.</CardDescription>
       </CardHeader>
       <CardContent>
-        <AuthForm mode="login" />
+        <LoginForm id="login-form" />
       </CardContent>
     </Card>
   );

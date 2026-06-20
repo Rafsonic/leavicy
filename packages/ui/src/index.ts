@@ -4,7 +4,6 @@ export { cn } from "./lib/utils";
 // Components
 export * from "./components/alert";
 export * from "./components/app-sidebar";
-export * from "./components/auth-form";
 export * from "./components/avatar";
 export * from "./components/badge";
 export * from "./components/button";
@@ -36,6 +35,13 @@ export * from "./components/team-members";
 export * from "./components/textarea";
 export * from "./components/type-badge";
 
+// Form building blocks (own directories)
+export * from "./components/input-field/input-field";
+
+// Auth forms (own directories)
+export * from "./components/login-form/login-form";
+export * from "./components/signup-form/signup-form";
+
 // GDPR / account components (own directories)
 export * from "./components/data-export-button/data-export-button";
 export * from "./components/delete-account-button/delete-account-button";
@@ -44,5 +50,8 @@ export * from "./components/delete-account-button/delete-account-button";
 export type * from "./components/app-sidebar.types";
 export type * from "./components/invitations-list.types";
 export type * from "./components/team-members.types";
+export type * from "./components/input-field/input-field.types";
+export type * from "./components/login-form/login-form.types";
+export type * from "./components/signup-form/signup-form.types";
 export type * from "./components/data-export-button/data-export-button.types";
 export type * from "./components/delete-account-button/delete-account-button.types";
