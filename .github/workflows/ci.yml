@@ -156,7 +156,18 @@ jobs:
         # Regenerates from the live schema; fails if a migration changed the
         # schema without `pnpm db:types` being re-run and committed.
         run: |
-          pnpm db:types
+          # `gen types` spins up a one-off postgres-meta container; retry to
+          # ride out transient ECR public Docker pull rate limits on CI runners.
+          n=0
+          until pnpm db:types; do
+            n=$((n + 1))
+            if [ "$n" -ge 3 ]; then
+              echo "::error::pnpm db:types failed after 3 attempts (Docker pull rate limit?)."
+              exit 1
+            fi
+            echo "db:types attempt $n failed; retrying in 30s..."
+            sleep 30
+          done
           git diff --exit-code packages/database/src/database.types.ts \
             || { echo "::error::database.types.ts is stale — run 'pnpm db:types' and commit."; exit 1; }
 
