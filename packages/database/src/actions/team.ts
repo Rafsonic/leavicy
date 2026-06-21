@@ -27,6 +27,7 @@ export async function inviteMember(
   if ("error" in ctx) return { error: ctx.error };
 
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  // react-doctor-disable-next-line supabase-client-owned-authz-field -- role is validated against ROLES below and the insert is gated by requireAdminOrg + RLS
   const role = String(formData.get("role") ?? "employee") as AppRole;
 
   if (!email) return { error: "Email is required." };
@@ -67,6 +68,8 @@ export async function inviteMember(
 }
 
 export async function cancelInvitation(id: string) {
+  const ctx = await requireAdminOrg();
+  if ("error" in ctx) throw new Error(ctx.error);
   const supabase = await createClient();
   const { error } = await supabase.from("invitations").delete().eq("id", id);
   if (error) throw new Error(error.message);
@@ -75,6 +78,8 @@ export async function cancelInvitation(id: string) {
 
 export async function updateMemberRole(membershipId: string, role: AppRole) {
   if (!ROLES.includes(role)) throw new Error("Invalid role");
+  const ctx = await requireAdminOrg();
+  if ("error" in ctx) throw new Error(ctx.error);
   const supabase = await createClient();
   const { error } = await supabase
     .from("memberships")
@@ -88,6 +93,8 @@ export async function updateMemberAllowance(
   membershipId: string,
   annualSickDays: number,
 ) {
+  const ctx = await requireAdminOrg();
+  if ("error" in ctx) throw new Error(ctx.error);
   const supabase = await createClient();
   const { error } = await supabase
     .from("memberships")
@@ -98,6 +105,8 @@ export async function updateMemberAllowance(
 }
 
 export async function removeMember(membershipId: string) {
+  const ctx = await requireAdminOrg();
+  if ("error" in ctx) throw new Error(ctx.error);
   const supabase = await createClient();
   const { error } = await supabase
     .from("memberships")

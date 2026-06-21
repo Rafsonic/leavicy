@@ -9,6 +9,7 @@ import { LEAVE_TYPES } from "../types";
 
 export type LeaveActionState = { ok?: boolean; error?: string } | undefined;
 
+// react-doctor-disable-next-line server-auth-actions -- guarded via getActiveMembership/getUser below; the linter can't trace the DAL helper
 export async function createLeaveRequest(
   _prev: LeaveActionState,
   formData: FormData,
@@ -68,7 +69,13 @@ export async function createLeaveRequest(
   return { ok: true };
 }
 
+// react-doctor-disable-next-line server-auth-actions -- guarded via getActiveMembership below; the linter can't trace the DAL helper
 export async function cancelLeaveRequest(id: string) {
+  // Auth gate on top of RLS — RLS scopes the update to the caller's own
+  // pending requests, but reject unauthenticated callers up front too.
+  const membership = await getActiveMembership();
+  if (!membership) throw new Error("No active company.");
+
   const supabase = await createClient();
   const { error } = await supabase
     .from("leave_requests")

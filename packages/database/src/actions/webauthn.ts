@@ -245,6 +245,7 @@ export async function verifyAuthentication(
 // ---------------------------------------------------------------------------
 
 /** Re-lock the PWA (clears the unlocked cookie); next nav requires Face ID. */
+// react-doctor-disable-next-line server-auth-actions -- cookie-only re-lock, no data access; nothing to authorize
 export async function lockApp(): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.delete(APP_UNLOCKED_COOKIE);

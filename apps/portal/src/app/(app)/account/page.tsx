@@ -16,8 +16,11 @@ export const metadata = { title: "Privacy & data · Leavicy" };
 
 export default async function AccountPage() {
   const user = await requireUser();
-  const profile = await getProfile();
-  const passkeys = await listPasskeys();
+  // Independent fetches — run them together instead of waterfalling.
+  const [profile, passkeys] = await Promise.all([
+    getProfile(),
+    listPasskeys(),
+  ]);
 
   return (
     <>

@@ -17,6 +17,7 @@ async function setActiveOrg(orgId: string) {
   });
 }
 
+// react-doctor-disable-next-line server-auth-actions -- create_organization RPC (SECURITY DEFINER) enforces auth.uid() at the DB layer
 export async function createOrganization(
   _prev: OnboardingState,
   formData: FormData,
@@ -35,6 +36,7 @@ export async function createOrganization(
   redirect("/dashboard");
 }
 
+// react-doctor-disable-next-line server-auth-actions -- accept_invitation RPC (SECURITY DEFINER) enforces the token + auth.uid() at the DB layer
 export async function acceptInvitation(
   _prev: OnboardingState,
   formData: FormData,

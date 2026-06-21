@@ -40,6 +40,7 @@ export function InstallPrompt({
       // iOS never fires beforeinstallprompt — show manual instructions instead.
       if (isIos()) setShowIos(true);
     };
+    // react-doctor-disable-next-line no-initialize-state -- intentional: these reads touch browser-only state and must run after mount to avoid SSR hydration mismatch
     init();
 
     return () =>
