@@ -7,9 +7,14 @@ vi.mock("next/navigation", () => ({
 vi.mock("sonner", () => ({
   toast: { success: vi.fn(), error: vi.fn() },
 }));
-const createLeaveRequest = vi.fn(async () => ({ ok: true }));
+type LeaveActionState = { ok?: boolean; error?: string } | undefined;
+const createLeaveRequest =
+  vi.fn<(prev: LeaveActionState, formData: FormData) => Promise<LeaveActionState>>(
+    async () => ({ ok: true }),
+  );
 vi.mock("@repo/database/actions/leave", () => ({
-  createLeaveRequest: (...args: unknown[]) => createLeaveRequest(...args),
+  createLeaveRequest: (prev: LeaveActionState, formData: FormData) =>
+    createLeaveRequest(prev, formData),
 }));
 vi.mock("@repo/database/format", () => ({
   todayISO: () => "2026-06-21",
