@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useReducer, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Plus, Loader2 } from "lucide-react";
@@ -28,6 +28,20 @@ import {
   DialogTrigger,
 } from "./dialog";
 
+type RequestFormState = {
+  leaveType: LeaveType;
+  startDate: string;
+  endDate: string;
+  reason: string;
+};
+
+const initialRequestForm = (): RequestFormState => ({
+  leaveType: "sick",
+  startDate: todayISO(),
+  endDate: todayISO(),
+  reason: "",
+});
+
 export function NewRequestDialog({
   closedDays = [],
 }: {
@@ -35,13 +49,18 @@ export function NewRequestDialog({
   closedDays?: string[];
 } = {}) {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [pending, startTransition] = useTransition();
 
-  const [leaveType, setLeaveType] = useState<LeaveType>("sick");
-  const [startDate, setStartDate] = useState<string>(() => todayISO());
-  const [endDate, setEndDate] = useState<string>(() => todayISO());
-  const [reason, setReason] = useState("");
+  const [form, setForm] = useReducer(
+    (state: RequestFormState, patch: Partial<RequestFormState>): RequestFormState => ({
+      ...state,
+      ...patch,
+    }),
+    undefined,
+    initialRequestForm,
+  );
+  const { leaveType, startDate, endDate, reason } = form;
 
   const days =
     startDate && endDate ? workingDaysBetween(startDate, endDate, closedDays) : 0;
@@ -50,10 +69,7 @@ export function NewRequestDialog({
     closedSet.has(startDate) || closedSet.has(endDate);
 
   function reset() {
-    setLeaveType("sick");
-    setStartDate(todayISO());
-    setEndDate(todayISO());
-    setReason("");
+    setForm(initialRequestForm());
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -107,7 +123,7 @@ export function NewRequestDialog({
               <Label>Type</Label>
               <Select
                 value={leaveType}
-                onValueChange={(v) => setLeaveType(v as LeaveType)}
+                onValueChange={(v) => setForm({ leaveType: v as LeaveType })}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -130,8 +146,12 @@ export function NewRequestDialog({
                   type="date"
                   value={startDate}
                   onChange={(e) => {
-                    setStartDate(e.target.value);
-                    if (endDate < e.target.value) setEndDate(e.target.value);
+                    const value = e.target.value;
+                    setForm(
+                      endDate < value
+                        ? { startDate: value, endDate: value }
+                        : { startDate: value },
+                    );
                   }}
                   required
                 />
@@ -143,7 +163,7 @@ export function NewRequestDialog({
                   type="date"
                   min={startDate}
                   value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
+                  onChange={(e) => setForm({ endDate: e.target.value })}
                   required
                 />
               </div>
@@ -159,7 +179,7 @@ export function NewRequestDialog({
               <Textarea
                 id="reason"
                 value={reason}
-                onChange={(e) => setReason(e.target.value)}
+                onChange={(e) => setForm({ reason: e.target.value })}
                 placeholder="Add a short note for your manager"
                 rows={3}
               />

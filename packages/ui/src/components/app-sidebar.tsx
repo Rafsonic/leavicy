@@ -55,10 +55,11 @@ function NavLinks({
 }) {
   return (
     <nav className="flex flex-col gap-1">
-      {NAV.filter((item) => item.show(role)).map((item) => {
+      {NAV.flatMap((item) => {
+        if (!item.show(role)) return [];
         const active =
           pathname === item.href || pathname.startsWith(`${item.href}/`);
-        return (
+        return [
           <Link
             key={item.href}
             href={item.href}
@@ -72,8 +73,8 @@ function NavLinks({
           >
             <item.icon className="size-4" />
             {item.label}
-          </Link>
-        );
+          </Link>,
+        ];
       })}
     </nav>
   );
@@ -206,15 +207,19 @@ export function AppSidebar(props: SidebarProps) {
               }
             />
             <DropdownMenuContent align="end" className="w-56">
-              {NAV.filter((i) => i.show(props.role)).map((item) => (
-                <DropdownMenuItem
-                  key={item.href}
-                  render={<Link href={item.href} />}
-                >
-                  <item.icon className="size-4" />
-                  {item.label}
-                </DropdownMenuItem>
-              ))}
+              {NAV.flatMap((item) =>
+                item.show(props.role)
+                  ? [
+                      <DropdownMenuItem
+                        key={item.href}
+                        render={<Link href={item.href} />}
+                      >
+                        <item.icon className="size-4" />
+                        {item.label}
+                      </DropdownMenuItem>,
+                    ]
+                  : [],
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuLabel>Switch company</DropdownMenuLabel>

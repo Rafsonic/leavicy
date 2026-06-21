@@ -66,7 +66,18 @@ repo.
   `diff-cover` against the base branch and **fails the check under 90%**, posting
   a patch-coverage comment. Clearing it locally keeps the PR green.
 
-## 4. Stage and commit
+## 4. Lint & typecheck — the LAST gate before committing (MUST)
+
+This runs **after** tests and coverage are green, and **immediately before**
+staging — it is the final gate. The new/updated test files from steps 2–3 must
+also pass lint and typecheck, so this has to come last.
+
+- Run `pnpm typecheck` and `pnpm lint` (or the `--filter` for the affected
+  packages, e.g. `pnpm --filter @repo/ui typecheck lint`).
+- Both must pass clean. If either fails, **fix the code** (not by silencing
+  rules) and re-run until green. **Do not commit** with lint/type errors.
+
+## 5. Stage and commit
 
 **Split distinct changes into separate commits.** If the session produced more
 than one logically independent change, commit them **separately** — one coherent,
@@ -105,6 +116,7 @@ emoji credit. The commit message is the change description only.
 - Never use bulk staging flags (`.`, `-A`, `-u`, `-a`).
 - Never commit without the covering tests, and never commit failing tests.
 - Never commit when a changed file is below 90% coverage — add tests first.
+- Never commit with lint or typecheck errors — run them as the last step.
 - Don't bundle logically separate changes into one giant commit — split them.
 - **Never push** without an explicit instruction to push in the current turn.
 - When in doubt about ownership of a change, ask the user rather than guessing.

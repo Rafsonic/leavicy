@@ -27,10 +27,9 @@ export function OfflineIndicator({
   if (!offline) return null;
 
   return (
-    <div
+    <output
       data-component="OfflineIndicator"
       data-cy={id}
-      role="status"
       aria-live="polite"
       className={cn(
         "fixed inset-x-0 bottom-0 z-50 flex items-center justify-center gap-2",
@@ -40,6 +39,6 @@ export function OfflineIndicator({
     >
       <WifiOff className="size-4 shrink-0" aria-hidden />
       <span>Εκτός σύνδεσης — εμφανίζονται αποθηκευμένα δεδομένα</span>
-    </div>
+    </output>
   );
 }
