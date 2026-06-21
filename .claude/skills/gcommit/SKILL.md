@@ -68,6 +68,20 @@ repo.
 
 ## 4. Stage and commit
 
+**Split distinct changes into separate commits.** If the session produced more
+than one logically independent change, commit them **separately** — one coherent,
+independently reviewable commit per change — rather than bundling everything into
+one giant commit. Each commit (with its covering tests) should stand on its own
+and have a focused message.
+
+- Group the changed files by logical change (e.g. a bugfix, an unrelated
+  feature, a CI tweak → three commits). A file's tests go in the **same** commit
+  as the code they cover.
+- If the changes are genuinely one cohesive unit, a single commit is correct —
+  don't split for the sake of it.
+- When splitting, stage and commit each group in turn (explicit paths only), and
+  show the user the `git diff --staged` for each before finalizing it.
+
 - Stage **only** the explicit paths from step 1 **plus** the test files written
   in step 2 (the tests are part of this commit).
 - Show the user `git status` / `git diff --staged` summary of exactly what will
@@ -91,5 +105,6 @@ emoji credit. The commit message is the change description only.
 - Never use bulk staging flags (`.`, `-A`, `-u`, `-a`).
 - Never commit without the covering tests, and never commit failing tests.
 - Never commit when a changed file is below 90% coverage — add tests first.
+- Don't bundle logically separate changes into one giant commit — split them.
 - **Never push** without an explicit instruction to push in the current turn.
 - When in doubt about ownership of a change, ask the user rather than guessing.
