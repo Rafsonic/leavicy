@@ -55,4 +55,5 @@ function Button({
   )
 }
 
+// react-doctor-disable-next-line only-export-components -- shadcn convention: co-export `buttonVariants` (cva) next to the vendored primitive; dev-rules.md forbids refactoring vendored shadcn/ui files.
 export { Button, buttonVariants }

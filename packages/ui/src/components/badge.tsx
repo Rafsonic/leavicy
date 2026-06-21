@@ -49,4 +49,5 @@ function Badge({
   })
 }
 
+// react-doctor-disable-next-line only-export-components -- shadcn convention: co-export `badgeVariants` (cva) next to the vendored primitive; dev-rules.md forbids refactoring vendored shadcn/ui files.
 export { Badge, badgeVariants }

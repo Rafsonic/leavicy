@@ -6,6 +6,7 @@ import { cn } from "../lib/utils"
 
 function Label({ className, ...props }: React.ComponentProps<"label">) {
   return (
+    // react-doctor-disable-next-line label-has-associated-control -- vendored shadcn primitive: consumers supply `htmlFor`; dev-rules.md forbids refactoring vendored shadcn/ui files.
     <label
       data-slot="label"
       className={cn(
