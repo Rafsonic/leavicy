@@ -62,10 +62,10 @@ export function InstallPrompt({
   if (dismissed || (!deferred && !showIos)) return null;
 
   return (
-    <div
+    <dialog
+      open
       data-component="InstallPrompt"
       data-cy={id}
-      role="dialog"
       aria-label="Εγκατάσταση εφαρμογής"
       className="bg-card text-card-foreground fixed inset-x-4 bottom-4 z-50 mx-auto flex max-w-sm items-start gap-3 rounded-xl border p-4 shadow-lg sm:left-auto sm:right-4"
     >
@@ -112,6 +112,6 @@ export function InstallPrompt({
       >
         <X className="size-4" aria-hidden />
       </Button>
-    </div>
+    </dialog>
   );
 }
