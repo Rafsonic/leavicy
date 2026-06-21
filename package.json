@@ -8,6 +8,7 @@
     "dev:proxy": "sudo caddy run --config Caddyfile",
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "doctor": "react-doctor --no-dead-code --blocking error -y .",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:coverage": "vitest run --coverage",
