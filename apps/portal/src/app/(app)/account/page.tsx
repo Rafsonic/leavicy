@@ -1,4 +1,5 @@
 import { requireUser, getProfile } from "@repo/database/dal";
+import { listPasskeys } from "@repo/database/actions/webauthn";
 import {
   PageHeader,
   DataExportButton,
@@ -9,12 +10,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@repo/ui";
+import { PasskeyManager } from "@/components/passkey-manager/passkey-manager";
 
 export const metadata = { title: "Privacy & data · Leavicy" };
 
 export default async function AccountPage() {
   const user = await requireUser();
   const profile = await getProfile();
+  const passkeys = await listPasskeys();
 
   return (
     <>
@@ -45,6 +48,19 @@ export default async function AccountPage() {
           </CardHeader>
           <CardContent>
             <DataExportButton />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Face ID / passkeys</CardTitle>
+            <CardDescription>
+              Ξεκλειδώστε γρήγορα την εφαρμογή με Face ID ή Touch ID αντί για
+              κωδικό. Λειτουργεί μόνο σε υποστηριζόμενες συσκευές.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <PasskeyManager id="passkey-manager" initialPasskeys={passkeys} />
           </CardContent>
         </Card>
 

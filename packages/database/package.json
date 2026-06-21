@@ -8,6 +8,7 @@
     "./server": "./src/server.ts",
     "./admin": "./src/admin.ts",
     "./middleware": "./src/middleware.ts",
+    "./webauthn.shared": "./src/webauthn.shared.ts",
     "./dal": "./src/dal.ts",
     "./types": "./src/types.ts",
     "./format": "./src/format.ts",
@@ -19,7 +20,8 @@
     "./actions/settings": "./src/actions/settings.ts",
     "./actions/onboarding": "./src/actions/onboarding.ts",
     "./actions/account": "./src/actions/account.ts",
-    "./actions/tenants": "./src/actions/tenants.ts"
+    "./actions/tenants": "./src/actions/tenants.ts",
+    "./actions/webauthn": "./src/actions/webauthn.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -29,6 +31,7 @@
   },
   "dependencies": {
     "@repo/email": "workspace:*",
+    "@simplewebauthn/server": "^13.3.1",
     "@supabase/ssr": "0.12.0",
     "@supabase/supabase-js": "^2.108.2",
     "server-only": "^0.0.1"
