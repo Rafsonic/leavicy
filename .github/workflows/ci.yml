@@ -48,6 +48,31 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-dummy-anon-key
           NEXT_PUBLIC_APP_NAME: Leavicy CI
 
+  react-doctor:
+    name: React Doctor (React codebase health)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: React Doctor
+        # Fails only on error-severity findings (--blocking error); warnings are
+        # informational. Curated false positives are suppressed inline / via
+        # doctor.config.jsonc. Dead-code analysis is skipped to keep the check
+        # focused on the React lint rules we've tuned.
+        run: pnpm doctor
+
   coverage:
     name: Patch coverage (≥ 90% on changed code)
     # Patch coverage needs a base to diff against, so PRs only.

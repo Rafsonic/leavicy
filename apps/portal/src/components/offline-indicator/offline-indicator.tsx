@@ -14,6 +14,7 @@ export function OfflineIndicator({
 
   useEffect(() => {
     const sync = (): void => setOffline(!navigator.onLine);
+    // react-doctor-disable-next-line no-initialize-state -- intentional: navigator.onLine is browser-only and must be read after mount to avoid SSR hydration mismatch
     sync();
     window.addEventListener("online", sync);
     window.addEventListener("offline", sync);

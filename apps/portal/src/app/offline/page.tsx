@@ -3,13 +3,13 @@
 import { Button } from "@repo/ui";
 import { WifiOff } from "lucide-react";
 
+const handleRetry = (): void => {
+  window.location.reload();
+};
+
 // Offline fallback served by the service worker when a navigation fails with no
 // cached copy. Must stay self-contained (no data fetching) so it works offline.
 export default function OfflinePage(): React.ReactElement {
-  const handleRetry = (): void => {
-    window.location.reload();
-  };
-
   return (
     <main
       data-component="OfflinePage"

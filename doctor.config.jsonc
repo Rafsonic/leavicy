@@ -1,0 +1,25 @@
+{
+  "$schema": "https://react.doctor/schema/config.json",
+  // Project-wide rule severity overrides.
+  //
+  // These rules are intentionally OFF for this codebase: each is either
+  // subjective/marginal, or only ever fires on vendored shadcn/ui primitives
+  // that dev-rules.md forbids us from refactoring. Code-specific false positives
+  // (guarded server actions, SSR-safe effects, server-trusted inserts) are NOT
+  // disabled here — they're suppressed inline with a
+  // `// react-doctor-disable-next-line <rule> -- <reason>` comment so the
+  // suppression stays scoped and a genuinely new violation still gets flagged.
+  "rules": {
+    // Subjective / marginal — our current patterns are intentional.
+    "react-doctor/prefer-useReducer": "off",
+    "react-doctor/js-combine-iterations": "off",
+    "react-doctor/prefer-html-dialog": "off",
+    "react-doctor/prefer-tag-over-role": "off",
+    // Fires on the shadcn convention of co-exporting `*Variants` next to the
+    // component; our own reusable components export a single component each.
+    "react-doctor/only-export-components": "off",
+    // Fires on the generic vendored shadcn `<Label>` primitive (consumers supply
+    // `htmlFor`); cannot be scoped to that one file for lint, so disable it.
+    "react-doctor/label-has-associated-control": "off"
+  }
+}

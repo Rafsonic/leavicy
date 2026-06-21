@@ -27,6 +27,7 @@ export async function login(
   redirect("/");
 }
 
+// react-doctor-disable-next-line server-auth-actions -- public by design: account self-registration
 export async function signup(
   _prev: AuthState,
   formData: FormData,
@@ -59,6 +60,7 @@ export async function signup(
   redirect("/");
 }
 
+// react-doctor-disable-next-line server-auth-actions -- session-scoped: acts only on the caller's own session
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
@@ -72,6 +74,7 @@ export async function signOut() {
   redirect("/login");
 }
 
+// react-doctor-disable-next-line server-auth-actions -- only sets the active-org cookie; RLS scopes data and getActiveMembership falls back to a real membership
 export async function switchOrg(orgId: string) {
   const cookieStore = await cookies();
   cookieStore.set(ACTIVE_ORG_COOKIE, orgId, {

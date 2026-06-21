@@ -39,8 +39,8 @@ export function NewRequestDialog({
   const [pending, startTransition] = useTransition();
 
   const [leaveType, setLeaveType] = useState<LeaveType>("sick");
-  const [startDate, setStartDate] = useState(todayISO());
-  const [endDate, setEndDate] = useState(todayISO());
+  const [startDate, setStartDate] = useState<string>(() => todayISO());
+  const [endDate, setEndDate] = useState<string>(() => todayISO());
   const [reason, setReason] = useState("");
 
   const days =

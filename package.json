@@ -8,6 +8,7 @@
     "dev:proxy": "sudo caddy run --config Caddyfile",
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "doctor": "react-doctor --no-dead-code --blocking error -y .",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:coverage": "vitest run --coverage",
@@ -26,6 +27,7 @@
     "@supabase/supabase-js": "^2.108.2",
     "@vitest/coverage-v8": "4.1.9",
     "prettier": "^3.8.4",
+    "react-doctor": "^0.5.8",
     "turbo": "^2.9.18",
     "typescript": "^6.0.3",
     "vitest": "4.1.9"
