@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "./database.types";
+import { APP_UNLOCKED_COOKIE, HAS_PASSKEY_COOKIE } from "./webauthn.shared";
 
 const PUBLIC_PATHS = [
   "/",
@@ -13,10 +14,16 @@ const PUBLIC_PATHS = [
   "/offline",
 ];
 
+// Reachable while authenticated-but-locked, so the unlock flow can run without
+// the gate redirecting onto itself.
+const UNLOCK_PATHS = ["/unlock", "/auth/webauthn"];
+
+function matches(pathname: string, paths: string[]) {
+  return paths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
+
 function isPublic(pathname: string) {
-  return PUBLIC_PATHS.some(
-    (p) => pathname === p || pathname.startsWith(`${p}/`),
-  );
+  return matches(pathname, PUBLIC_PATHS);
 }
 
 /**
@@ -57,6 +64,23 @@ export async function updateSession(request: NextRequest) {
   if (!user && !isPublic(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
+    url.searchParams.set("redirectedFrom", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  // "App Unlock" gate: an authenticated user who has enrolled a passkey must
+  // pass Face ID before reaching protected pages. The Supabase session is left
+  // intact — this only locks the UI. Skip on public + unlock routes so the
+  // gate never redirects onto itself.
+  if (
+    user &&
+    request.cookies.get(HAS_PASSKEY_COOKIE)?.value === "1" &&
+    request.cookies.get(APP_UNLOCKED_COOKIE)?.value !== "1" &&
+    !isPublic(pathname) &&
+    !matches(pathname, UNLOCK_PATHS)
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/unlock";
     url.searchParams.set("redirectedFrom", pathname);
     return NextResponse.redirect(url);
   }

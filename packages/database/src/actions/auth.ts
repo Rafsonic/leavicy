@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { createClient } from "../server";
 import { ACTIVE_ORG_COOKIE } from "../dal";
+import { APP_UNLOCKED_COOKIE, HAS_PASSKEY_COOKIE } from "../webauthn.shared";
 
 export type AuthState = { error?: string } | undefined;
 
@@ -61,6 +62,13 @@ export async function signup(
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
+
+  // Clear the device-scoped unlock flags so a different user signing in on the
+  // same device isn't gated against (or by) the previous user's passkey.
+  const cookieStore = await cookies();
+  cookieStore.delete(APP_UNLOCKED_COOKIE);
+  cookieStore.delete(HAS_PASSKEY_COOKIE);
+
   redirect("/login");
 }
 
