@@ -26,6 +26,7 @@
     "@supabase/supabase-js": "^2.108.2",
     "@vitest/coverage-v8": "4.1.9",
     "prettier": "^3.8.4",
+    "react-doctor": "^0.5.8",
     "turbo": "^2.9.18",
     "typescript": "^6.0.3",
     "vitest": "4.1.9"
