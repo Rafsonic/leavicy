@@ -12,6 +12,9 @@ build/
 # turbo
 .turbo
 
+# coverage
+coverage/
+
 # env files
 .env*
 !.env.example

@@ -48,6 +48,63 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-dummy-anon-key
           NEXT_PUBLIC_APP_NAME: Leavicy CI
 
+  coverage:
+    name: Patch coverage (≥ 90% on changed code)
+    # Patch coverage needs a base to diff against, so PRs only.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Full history so diff-cover can compare against the base branch.
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit tests with coverage
+        run: pnpm test:coverage
+
+      - name: Compute patch coverage
+        id: patch
+        run: |
+          pipx install diff-cover
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+          set +e
+          diff-cover coverage/cobertura-coverage.xml \
+            --compare-branch="origin/${{ github.base_ref }}" \
+            --fail-under=90 \
+            --markdown-report=coverage-patch.md
+          echo "rc=$?" >> "$GITHUB_OUTPUT"
+          set -e
+          # Mirror the report into the job summary for quick viewing.
+          cat coverage-patch.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment patch coverage on PR
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: patch-coverage
+          path: coverage-patch.md
+
+      - name: Enforce 90% patch coverage
+        if: steps.patch.outputs.rc != '0'
+        run: |
+          echo "::error::Patch coverage is below 90% on the changed code."
+          exit 1
+
   integration:
     name: Integration tests (live Supabase)
     runs-on: ubuntu-latest
@@ -69,14 +126,17 @@ jobs:
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v2
         with:
-          version: latest
+          # Pinned (not `latest`) so a floating CLI release can't break CI.
+          version: 2.107.0
         env:
           # Raises the GitHub API rate limit (60 → 5,000/h) so resolving the
-          # latest Supabase CLI release doesn't fail on shared CI runners.
+          # CLI release doesn't fail on shared CI runners.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start Supabase (applies migrations + seed)
-        run: supabase start
+        # Exclude edge-runtime: the project ships no edge functions, and its
+        # container has been failing its health check (502) on CI runners.
+        run: supabase start -x edge-runtime
 
       - name: Run integration tests
         run: |
@@ -96,7 +156,18 @@ jobs:
         # Regenerates from the live schema; fails if a migration changed the
         # schema without `pnpm db:types` being re-run and committed.
         run: |
-          pnpm db:types
+          # `gen types` spins up a one-off postgres-meta container; retry to
+          # ride out transient ECR public Docker pull rate limits on CI runners.
+          n=0
+          until pnpm db:types; do
+            n=$((n + 1))
+            if [ "$n" -ge 3 ]; then
+              echo "::error::pnpm db:types failed after 3 attempts (Docker pull rate limit?)."
+              exit 1
+            fi
+            echo "db:types attempt $n failed; retrying in 30s..."
+            sleep 30
+          done
           git diff --exit-code packages/database/src/database.types.ts \
             || { echo "::error::database.types.ts is stale — run 'pnpm db:types' and commit."; exit 1; }
 
@@ -125,14 +196,17 @@ jobs:
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v2
         with:
-          version: latest
+          # Pinned (not `latest`) so a floating CLI release can't break CI.
+          version: 2.107.0
         env:
           # Raises the GitHub API rate limit (60 → 5,000/h) so resolving the
-          # latest Supabase CLI release doesn't fail on shared CI runners.
+          # CLI release doesn't fail on shared CI runners.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start Supabase (applies migrations + seed)
-        run: supabase start
+        # Exclude edge-runtime: the project ships no edge functions, and its
+        # container has been failing its health check (502) on CI runners.
+        run: supabase start -x edge-runtime
 
       - name: Install Playwright browsers
         run: pnpm --filter @repo/e2e-tests exec playwright install --with-deps chromium
