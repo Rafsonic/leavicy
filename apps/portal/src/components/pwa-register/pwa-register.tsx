@@ -46,7 +46,13 @@ export function PwaRegister({
       reloading = true;
       window.location.reload();
     };
-    container.addEventListener("controllerchange", onControllerChange);
+    // Reload only when an *updated* worker takes over a page that was already
+    // controlled. On a first visit the page is uncontrolled, and the SW's
+    // initial `clients.claim()` fires controllerchange too — reloading there
+    // would bounce every new visitor (and breaks in-flight form submits).
+    if (container.controller) {
+      container.addEventListener("controllerchange", onControllerChange);
+    }
 
     void register();
 

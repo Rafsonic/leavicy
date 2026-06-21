@@ -96,7 +96,9 @@ describe("PwaRegister", () => {
       scope: "/",
       updateViaCache: "none",
     });
-    expect(sw.addEventListener).toHaveBeenCalledWith(
+    // First visit (no prior controller) must NOT wire the reload-on-update
+    // listener — otherwise every new visitor gets bounced on initial claim.
+    expect(sw.addEventListener).not.toHaveBeenCalledWith(
       "controllerchange",
       expect.any(Function),
     );
@@ -131,7 +133,7 @@ describe("PwaRegister", () => {
     expect(() => registration.fire("updatefound")).not.toThrow();
   });
 
-  it("reloads once when the controller changes", async () => {
+  it("reloads once when an update takes over an already-controlled page", async () => {
     const reload = vi.fn();
     Object.defineProperty(window, "location", {
       value: { ...window.location, reload },
@@ -143,6 +145,7 @@ describe("PwaRegister", () => {
       ...makeListenerBag(),
     };
     const sw = installSwMock(registration);
+    sw.controller = {}; // returning visitor: page already controlled
     render(<PwaRegister id="pwa-register" />);
 
     await waitFor(() => expect(sw.register).toHaveBeenCalledOnce());
@@ -150,6 +153,26 @@ describe("PwaRegister", () => {
     sw.fireController(); // second change must be ignored
 
     expect(reload).toHaveBeenCalledOnce();
+  });
+
+  it("does not reload on the initial claim of a first visit", async () => {
+    const reload = vi.fn();
+    Object.defineProperty(window, "location", {
+      value: { ...window.location, reload },
+      configurable: true,
+    });
+
+    const registration: RegistrationMock = {
+      installing: null,
+      ...makeListenerBag(),
+    };
+    const sw = installSwMock(registration); // controller stays null
+    render(<PwaRegister id="pwa-register" />);
+
+    await waitFor(() => expect(sw.register).toHaveBeenCalledOnce());
+    sw.fireController(); // initial claim — must be ignored
+
+    expect(reload).not.toHaveBeenCalled();
   });
 
   it("does nothing when service workers are unsupported", () => {
