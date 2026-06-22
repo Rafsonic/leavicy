@@ -261,7 +261,7 @@ importers:
         version: 1.6.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@hookform/resolvers':
         specifier: ^5.4.0
-        version: 5.4.0(react-hook-form@7.79.0(react@19.2.7))
+        version: 5.4.0(react-hook-form@7.80.0(react@19.2.7))
       '@repo/database':
         specifier: workspace:*
         version: link:../database
@@ -278,8 +278,8 @@ importers:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-hook-form:
-        specifier: ^7.79.0
-        version: 7.79.0(react@19.2.7)
+        specifier: ^7.80.0
+        version: 7.80.0(react@19.2.7)
       sonner:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -558,8 +558,8 @@ packages:
       '@csstools/css-parser-algorithms': ^4.0.0
       '@csstools/css-tokenizer': ^4.0.0
 
-  '@csstools/css-color-parser@4.1.7':
-    resolution: {integrity: sha512-CmjJFQTFQx/U/xNJhSjCQ0ilpesPmNQ8+eOUeM/+kDOVW33qsIjeOXc27vrQDdWVkf83ZSWwtg7kXSUvKDJ8cQ==}
+  '@csstools/css-color-parser@4.1.8':
+    resolution: {integrity: sha512-3chWb7PRLijpJpPIKkDxdu6IBeO5MrFACND57On0j8OPpc0wZibcGc3xAHrSEbOx/KDRyMHoIxGn0w1PhXMYHw==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       '@csstools/css-parser-algorithms': ^4.0.0
@@ -3171,6 +3171,11 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  nanoid@3.3.14:
+    resolution: {integrity: sha512-U9kYi5bpVMEI31yC8iw4bJJp0avcHXA0W8/wNfLfnvJYzihQo2ZRPYPvpAAd570HAcCBjCTN7vnr+v4StKl1IQ==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
   napi-postinstall@0.3.4:
     resolution: {integrity: sha512-PHI5f1O0EP5xJ9gQmFGMS6IZcrVvTjpXjz7Na41gTE7eE2hK11lg04CECCYEEjdc17EV4DO+fkGEtt7TpTaTiQ==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
@@ -3388,8 +3393,8 @@ packages:
     peerDependencies:
       react: ^19.2.7
 
-  react-hook-form@7.79.0:
-    resolution: {integrity: sha512-mhYp/MTmXvzYX6AJcJVko0rktoIhhmRnEouObj4wF5i/tCttgJvnp1+9wRkpITZjDTqpo4IOSJqu0dBlPlV/Lw==}
+  react-hook-form@7.80.0:
+    resolution: {integrity: sha512-4P+fk6oXsxY+6xSj7Euhc2sumQD8zQqCuVHoJwoyp9EchP+IUW9OESB7uHFJOKsIBQ4MQqYE84INJFqUCYNoOg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
@@ -3987,7 +3992,7 @@ snapshots:
     dependencies:
       '@asamuzakjp/generational-cache': 1.0.1
       '@csstools/css-calc': 3.2.1(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
-      '@csstools/css-color-parser': 4.1.7(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
+      '@csstools/css-color-parser': 4.1.8(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-tokenizer': 4.0.0
 
@@ -4141,7 +4146,7 @@ snapshots:
       '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-tokenizer': 4.0.0
 
-  '@csstools/css-color-parser@4.1.7(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)':
+  '@csstools/css-color-parser@4.1.8(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)':
     dependencies:
       '@csstools/color-helpers': 6.0.2
       '@csstools/css-calc': 3.2.1(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
@@ -4248,10 +4253,10 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
-  '@hookform/resolvers@5.4.0(react-hook-form@7.79.0(react@19.2.7))':
+  '@hookform/resolvers@5.4.0(react-hook-form@7.80.0(react@19.2.7))':
     dependencies:
       '@standard-schema/utils': 0.3.0
-      react-hook-form: 7.79.0(react@19.2.7)
+      react-hook-form: 7.80.0(react@19.2.7)
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -6578,6 +6583,8 @@ snapshots:
 
   nanoid@3.3.12: {}
 
+  nanoid@3.3.14: {}
+
   napi-postinstall@0.3.4: {}
 
   natural-compare@1.4.0: {}
@@ -6828,7 +6835,7 @@ snapshots:
 
   postcss@8.5.15:
     dependencies:
-      nanoid: 3.3.12
+      nanoid: 3.3.14
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -6893,7 +6900,7 @@ snapshots:
       react: 19.2.7
       scheduler: 0.27.0
 
-  react-hook-form@7.79.0(react@19.2.7):
+  react-hook-form@7.80.0(react@19.2.7):
     dependencies:
       react: 19.2.7
 
