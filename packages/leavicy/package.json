@@ -27,7 +27,7 @@
   "dependencies": {
     "@repo/database": "workspace:*",
     "@repo/ui": "workspace:*",
-    "lucide-react": "^1.21.0"
+    "lucide-react": "^1.22.0"
   },
   "peerDependencies": {
     "next": "^16.2.9",
